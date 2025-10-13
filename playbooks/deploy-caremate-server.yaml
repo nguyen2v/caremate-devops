@@ -1,0 +1,17 @@
+---
+- name: Deploy caremate server
+  hosts: caremate-server
+  vars:
+    hash: lastest
+  roles:
+    - role: caremate-builder
+      github_sha: '{{ hash }}'
+  tasks:
+    - name: Build and restart server docker container
+      ansible.builtin.include_role:
+        name: docker-compose-helper
+      vars:
+        chdir: '{{ project_dir }}'
+        target_service: '{{ item }}'
+      loop:
+        - server

@@ -1,0 +1,11 @@
+---
+- name: Install debian tools
+  ansible.builtin.apt:
+    name:
+      - debhelper
+      - devscripts
+      - libxml2-utils
+      - make
+    state: present
+    update_cache: true
+  become: true

@@ -1,0 +1,144 @@
+#+title: Setup Caremate Server
+#+date: <2025-07-27 Sun 11:38>
+#+startup: content
+#+property: header-args :noweb yes :dir (projectile-project-root) :results none
+#+filetags: :Setup:Caremate:Server:
+
+* Prerequisites
+- Ensure Ansible is installed and configured
+- Verify SSH access to the server
+- Confirm DNS propagation before SSL setup
+
+* Add caremate-server IP to /etc/hosts
+#+begin_src
+# glcoud servers
+34.126.130.128 caremate-server
+34.142.157.137 jitsi-server
+#+end_src
+
+* SSH into caremate server using host name
+#+begin_src bash
+ssh dhp@caremate-server
+#+end_src
+
+* Setup core packages
+#+begin_src bash
+ansible-playbook playbooks/setup-core-config.yaml \
+  --limit=caremate-server \
+  --verbose
+#+end_src
+
+* Setup SSH key
+#+begin_src bash
+ansible-playbook playbooks/setup-ssh-key.yaml \
+  --limit=caremate-server \
+  --verbose
+#+end_src
+
+* Setup docker
+#+begin_src bash
+ansible-playbook playbooks/setup-docker.yaml \
+  --limit=caremate-server \
+  --verbose
+#+end_src
+
+* Setup Nodejs
+#+begin_src bash
+ansible-playbook playbooks/setup-nodejs.yaml \
+  --limit=caremate-server \
+  --verbose
+#+end_src
+
+* Setup caremate source code
+#+begin_src bash
+ansible-playbook playbooks/setup-caremate-project.yaml --verbose
+#+end_src
+
+* Issue HTTPS certificate
+** Step 1: Configure DNS
+- Add caremate-server IP to Namecheap DNS config
+ | Type     | Host |          Value | TTL       |
+ |----------+------+----------------+-----------|
+ | A Record | api  | 34.126.130.128 | Automatic |
+
+- Wait for DNS propagation (use `dig api.yourdomain.com` to verify)
+#+begin_src bash
+dig +short api.fpt.healthcare
+#+end_src
+
+** Step 2: Issue new certificate
+#+begin_src bash
+ansible-playbook playbooks/setup-nginx.yaml \
+  --extra-vars='{ "ssl": false }' \
+  --limit=caremate-server \
+  --verbose
+#+end_src
+
+* Docker compose port mappings
+
+| Servic          |                                 Port |
+|-----------------+--------------------------------------|
+| postgres        |                            5432:5432 |
+| redis           |                            6379:6379 |
+| caremate-server |                            8103:8103 |
+| nginx           | 80:80, 443:443, 7474:7474, 7687:7687 |
+| chroma-server   |                            8001:8000 |
+| neo4j           |               17474:7474, 17687:7687 |
+| ai-scribe       |                            8000:8000 |
+| care-assistant  |                            3002:3002 |
+| cengine-api     |                            8003:8000 |
+
+* Deploy caremate-server
+** Update source code, apply patch and env
+#+begin_src bash
+ansible-playbook playbooks/setup-caremate-project.yaml --verbose
+#+end_src
+
+** Update env
+#+begin_src bash
+ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
+#+end_src
+
+** Run deployment
+- Replace hash with git sha in =caremate=
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-server.yaml \
+  --extra-vars='{ "hash": "aa5f59f" }' \
+  --verbose
+#+end_src
+
+** Deploy manually
+#+begin_src bash
+export SERVER_DOCKERHUB_REPOSITORY=caremate-server
+export GITHUB_SHA=aa5f59f
+
+./scripts/build-docker-server.sh
+#+end_src
+
+* Run nginx
+#+begin_src bash
+ansible-playbook playbooks/setup-nginx.yaml --verbose
+#+end_src
+
+* Deploy ai-scribe
+#+begin_src bash
+ansible-playbook playbooks/deploy-ai-scribe.yaml --verbose
+#+end_src
+
+
+* Deploy caremate-agent
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "caremate-agent" }' \
+  --verbose
+#+end_src
+
+* Deploy caremate-assistant
+#+begin_src bash
+ansible-playbook playbooks/deploy-care-assistant.yaml --verbose
+#+end_src
+
+* Deploy cengine-api
+#+begin_src bash
+ansible-playbook playbooks/deploy-cengine-api.yaml --verbose
+#+end_src

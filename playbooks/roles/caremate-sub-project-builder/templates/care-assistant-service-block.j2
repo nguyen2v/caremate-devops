@@ -1,0 +1,14 @@
+  {{ sub_project_name }}:
+    image: {{ sub_project_name }}:latest
+    build: ./caremate-assistant/{{ sub_project_name }}
+    container_name: {{ sub_project_name }}
+    environment:
+      - FRONTEND_URL=https://caremate-portal.web.app
+      - MCP_SERVER_URL=http://caremate-mcp:5000/api/mcp/stream
+    ports:
+      - 3002:3002
+    networks:
+      - caremate-network
+    volumes:
+      - ${CONFIG_DIR}/care-assistant/docker-config.json:/app/assets/docker-config.json
+    restart: unless-stopped

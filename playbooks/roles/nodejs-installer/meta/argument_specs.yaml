@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    options:
+      nodejs_version:
+        type: int
+        required: false
+        default: 22
+        description: >-
+          The major Node.js version to install. Defaults to 22 if not specified.

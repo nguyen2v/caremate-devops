@@ -1,0 +1,5 @@
+---
+- name: Build Jitsi Docker Stack
+  hosts: jitsi-server
+  roles:
+    - role: jitsi-web-builder

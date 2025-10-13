@@ -1,0 +1,26 @@
+---
+argument_specs:
+  main:
+    options:
+      chdir:
+        type: str
+        required: true
+        description: >
+          Absolute path to the project directory on the target host.
+
+      target_service:
+        type: str
+        required: true
+        choices:
+          - ai-scribe
+          - backend
+          - care-assistant
+          - caremate-agent
+          - caremate-mcp
+          - cengine-api
+          - nginx
+          - postgres
+          - redis
+          - server
+        description: >
+          Name of the Docker service to restart.

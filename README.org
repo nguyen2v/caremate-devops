@@ -1,0 +1,16 @@
+#+title: README
+#+date: <2025-01-08 Wed 15:31>
+#+startup: content
+#+property: header-args :noweb yes :results none
+#+filetags: ::
+- tags ::
+- source ::
+
+Check the following documents in order
+
+1. [[./docs/setup-google-cloud.org][Setup Google Cloud]]
+2. [[./docs/setup-infrastructure.org][Setup Infrastructure]]
+3. [[./docs/setup-server-with-ansible.org][Setup server with Ansible]]
+
+Others:
+1. [[./docs/setup-chrome-remote-desktop.org][Setup Chrome Remote Desktop]]

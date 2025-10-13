@@ -1,0 +1,10 @@
+---
+- name: Run verification command
+  ansible.builtin.shell:
+    cmd: '{{ cmd }}' # noqa: command-instead-of-shell
+  changed_when: false
+  register: verify_command_result
+
+- name: Print command output
+  ansible.builtin.debug:
+    msg: '{{ verify_command_result.stdout }}'

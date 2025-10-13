@@ -1,0 +1,43 @@
+---
+- name: Install Jitsi Docker stack
+  hosts: jitsi-server
+  tasks:
+    - name: Fetch latest code
+      ansible.builtin.git:
+        repo: git@bitbucket.org:hls-product/jitsi.git
+        dest: jitsi
+        force: true
+        version: main
+
+    - name: Create config directories
+      ansible.builtin.file:
+        path: '{{ jitsi_cfg_dir }}/{{ item }}'
+        state: directory
+        mode: '0755'
+      loop:
+        - web
+        - transcripts
+        - prosody/config
+        - prosody/prosody-plugins-custom
+        - jicofo
+        - jvb
+        - jigasi
+        - jibri
+
+    - name: Make sure nginx service is stopped
+      ansible.builtin.service:
+        name: nginx.service
+        state: stopped
+        enabled: false
+      become: true
+      failed_when: false
+
+    - name: Restart prosody, jicofo and jvb docker container
+      ansible.builtin.include_role:
+        name: jitsi-docker-restarter
+      vars:
+        target_service: '{{ item }}'
+      loop:
+        - prosody
+        - jicofo
+        - jvb

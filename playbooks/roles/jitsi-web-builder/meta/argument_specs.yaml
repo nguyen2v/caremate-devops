@@ -1,0 +1,21 @@
+---
+argument_specs:
+  main:
+    options:
+      jitsi_docker_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the Jitsi Docker directory
+
+      jitsi_web_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the Jitsi Meet Web source directory
+
+      jitsi_web_deb_path:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the Jitsi Web .deb package

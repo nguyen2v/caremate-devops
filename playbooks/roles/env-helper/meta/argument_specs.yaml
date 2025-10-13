@@ -1,0 +1,21 @@
+---
+argument_specs:
+  main:
+    options:
+      config_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the configuration directory on the target system
+
+      domain_name:
+        type: str
+        required: true
+        description: >-
+          Fully Qualified Domain Name (FQDN) for the target host or service
+
+      project_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the root directory of the project on the target system

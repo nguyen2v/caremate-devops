@@ -1,0 +1,12 @@
+---
+- name: Deploy caremate service
+  hosts: caremate-server
+  vars:
+    service_name: caremate-agent
+  roles:
+    - role: git-puller
+      repo: 'git@github.com:nguyen2v/{{ service_name }}.git'
+      dest: '{{ project_name }}/{{ service_name }}'
+
+    - role: caremate-sub-project-builder
+      sub_project_name: '{{ service_name }}'

@@ -1,0 +1,16 @@
+---
+- name: Ensure .gitconfig file exists
+  ansible.builtin.file:
+    path: '{{ home_dir }}/.gitconfig'
+    state: touch
+    mode: '0644'
+
+- name: Set global Git user email
+  ansible.builtin.command:
+    cmd: git config --global user.email duongtq@fpt.com # noqa: command-instead-of-module
+  changed_when: false
+
+- name: Set global Git user name
+  ansible.builtin.command:
+    cmd: git config --global user.name duongtq # noqa: command-instead-of-module
+  changed_when: false

@@ -1,0 +1,9 @@
+---
+argument_specs:
+  main:
+    options:
+      project_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the root directory of the project on the target system

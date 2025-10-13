@@ -1,0 +1,42 @@
+---
+- name: Configure Jitsi Docker Stack
+  hosts: jitsi-server
+  tasks:
+    - name: Configure Jitsi Docker PUBLIC_URL and Let's Encrypt settings
+      ansible.builtin.lineinfile:
+        path: '{{ jitsi_docker_dir }}/.env'
+        regexp: '^#?{{ item.key }}='
+        line: '{{ item.key }}={{ item.value }}'
+        backrefs: true
+      loop:
+        - { key: 'JVB_ADVERTISE_IPS', value: '{{ host_ip }}' }
+
+    - name: Copy fpt-software.svg to jitsi meet web config
+      ansible.builtin.copy:
+        src: 'images/fpt-software.svg'
+        dest: '{{ jitsi_cfg_dir }}/web/{{ item }}'
+        mode: '0644'
+        backup: true
+      become: true
+      loop:
+        - favicon.svg
+        - watermark.svg
+
+    - name: Enable translation and dumpTranscript on Jitsi Web
+      ansible.builtin.copy:
+        content: |
+          config.transcription.enabled = true;
+          config.transcription.translationLanguages = ["vi", "en", "ko", "zh-CN", "ja"];
+
+          config.testing.dumpTranscript = true;
+        dest: '{{ jitsi_cfg_dir }}/web/custom-config.js'
+        mode: '0644'
+
+    - name: Restart web and transcriber docker container
+      ansible.builtin.include_role:
+        name: jitsi-docker-restarter
+      vars:
+        target_service: '{{ item }}'
+      loop:
+        - web
+        - transcriber

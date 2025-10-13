@@ -1,0 +1,55 @@
+---
+- name: Check if docker image exists
+  ansible.builtin.command:
+    cmd: docker images caremate-server:${GITHUB_SHA} --quiet
+  environment:
+    GITHUB_SHA: '{{ github_sha }}'
+  register: docker_image_check
+  changed_when: false
+  failed_when: false
+
+- name: Set skip_build variable
+  ansible.builtin.set_fact:
+    skip_build: '{{ docker_image_check.stdout | length > 0 }}'
+
+- name: Install dependencies
+  ansible.builtin.command:
+    cmd: npm ci
+    creates: node_modules
+  args:
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  when: not skip_build
+
+- name: Run build
+  ansible.builtin.command:
+    cmd: npm run build:fast
+  args:
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  when: not skip_build
+
+- name: Builder docker server
+  ansible.builtin.command:
+    cmd: ./scripts/build-docker-server.sh
+  args:
+    chdir: '{{ project_dir }}'
+  environment:
+    SERVER_DOCKERHUB_REPOSITORY: caremate-server
+    GITHUB_SHA: '{{ github_sha }}'
+  changed_when: false
+  when: not skip_build
+
+- name: Verify docker image
+  ansible.builtin.command:
+    cmd: docker images
+  args:
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  register: docker_images
+  when: not skip_build
+
+- name: Debug docker images
+  ansible.builtin.debug:
+    var: docker_images.stdout_lines
+  when: not skip_build

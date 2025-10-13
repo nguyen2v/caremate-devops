@@ -1,0 +1,10 @@
+---
+- name: Deploy care-assistant
+  hosts: caremate-server
+  roles:
+    - role: git-puller
+      repo: 'git@bitbucket.org:health-solution/caremate-assistant.git'
+      dest: '{{ project_name }}/caremate-assistant'
+
+    - role: caremate-sub-project-builder
+      sub_project_name: care-assistant

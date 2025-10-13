@@ -1,0 +1,13 @@
+---
+- name: Add {{ sub_project_name }} service block to docker-compose
+  ansible.builtin.blockinfile:
+    dest: '{{ project_dir }}/docker-compose.yml'
+    marker: '  # {mark} ANSIBLE MANAGED {{ sub_project_name | upper }} BLOCK'
+    content: "{{ lookup('template', sub_project_name + '-service-block.j2') }}"
+
+- name: Build and start {{ sub_project_name }}
+  ansible.builtin.include_role:
+    name: docker-compose-helper
+  vars:
+    chdir: '{{ project_dir }}'
+    target_service: '{{ sub_project_name }}'

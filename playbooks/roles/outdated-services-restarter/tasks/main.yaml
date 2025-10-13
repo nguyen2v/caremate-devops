@@ -1,0 +1,6 @@
+---
+- name: Restart all outdated services
+  ansible.builtin.command:
+    cmd: needrestart -r a
+  become: true
+  changed_when: false

@@ -1,0 +1,5 @@
+---
+- name: Setup Nodejs (default version 22)
+  hosts: all
+  roles:
+    - role: nodejs-installer

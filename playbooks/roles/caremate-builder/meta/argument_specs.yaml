@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    options:
+      github_sha:
+        type: str
+        required: true
+        description: >-
+          Git commit SHA used as the Docker image tag for this deployment
+      project_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the root directory of the project on the target system

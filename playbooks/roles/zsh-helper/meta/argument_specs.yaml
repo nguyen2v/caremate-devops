@@ -1,0 +1,13 @@
+---
+argument_specs:
+  main:
+    options:
+      ansible_user:
+        type: str
+        required: true
+        description: Username of the remote account for which the default shell will be configured.
+
+      home_dir:
+        type: str
+        required: true
+        description: Absolute path to the user's home directory on the target system

@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    options:
+      repo:
+        type: str
+        required: true
+        description: >-
+          Repository name (i.e., the basename of the Git URL, e.g., 'caremate' from 'git@bitbucket.org:health-solution/caremate.git')
+
+      dest:
+        type: str
+        required: true
+        description: >-
+          Destination folder

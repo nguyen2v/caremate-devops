@@ -1,0 +1,22 @@
+---
+argument_specs:
+  main:
+    options:
+      domain_name:
+        type: str
+        required: true
+        description: >-
+          Fully Qualified Domain Name (FQDN) for the target host or service
+
+      enable_ssl:
+        type: bool
+        required: false
+        default: false
+        description: >-
+          Whether SSL/TLS should be enabled for secure HTTPS communication
+
+      project_dir:
+        type: str
+        required: true
+        description: >-
+          Absolute path to the root directory of the project on the target system

@@ -1,0 +1,9 @@
+---
+argument_specs:
+  main:
+    options:
+      sub_project_name:
+        type: str
+        required: true
+        description: >-
+          Repository or sub-project name (e.g., caremate-assistant, cengine-api)

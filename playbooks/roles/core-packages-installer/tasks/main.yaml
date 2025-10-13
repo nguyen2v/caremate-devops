@@ -1,0 +1,14 @@
+---
+- name: Install core packages
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - cron
+      - fish
+      - fzf
+      - git
+      - htop
+      - neovim
+      - zsh
+    update_cache: true
+  become: true

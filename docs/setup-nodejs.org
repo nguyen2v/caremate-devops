@@ -1,0 +1,29 @@
+#+title: Setup Node.js
+#+date: <2025-01-08 Wed 15:18>
+#+startup: content
+#+property: header-args :noweb yes :results none
+#+filetags: ::
+- tags ::
+- source ::
+
+* Add the NodeSource repository
+#+begin_src bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+#+end_src
+
+* Install Node.js
+#+begin_src bash
+sudo apt install -y nodejs
+#+end_src
+
+* Install yarn
+#+begin_src bash
+sudo npm install -g yarn
+#+end_src
+
+* Verify
+#+begin_src bash
+node --version
+npm --version
+yarn --version
+#+end_src

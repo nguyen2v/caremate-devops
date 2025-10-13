@@ -1,0 +1,11 @@
+---
+- name: Setup core config
+  hosts: all
+  roles:
+    - role: core-packages-installer
+
+    - role: zsh-helper
+
+    - role: locales-generator
+
+    - role: outdated-services-restarter

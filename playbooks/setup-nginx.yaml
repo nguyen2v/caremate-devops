@@ -1,0 +1,11 @@
+---
+- name: Setup nginx (https certificate)
+  hosts: caremate-server
+  vars:
+    ssl: true
+  roles:
+    - role: nginx-docker-helper
+      enable_ssl: '{{ ssl }}'
+
+    - role: certbot-helper
+      when: not ssl

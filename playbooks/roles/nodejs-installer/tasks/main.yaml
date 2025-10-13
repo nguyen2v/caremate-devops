@@ -1,0 +1,39 @@
+---
+- name: Set default nodejs_version if not defined
+  ansible.builtin.set_fact:
+    nodejs_version: '{{ nodejs_version | default(22) }}'
+  when: nodejs_version is not defined
+
+- name: Download NodeSource setup script for Node.js {{ nodejs_version }}.x LTS
+  ansible.builtin.get_url:
+    url: 'https://deb.nodesource.com/setup_{{ nodejs_version }}.x'
+    dest: /tmp/nodesource_setup.sh
+    mode: '0755'
+
+- name: Run NodeSource setup script
+  ansible.builtin.command: bash /tmp/nodesource_setup.sh
+  args:
+    creates: /etc/apt/sources.list.d/nodesource.list
+  become: true
+
+- name: Install Node.js
+  ansible.builtin.apt:
+    name: nodejs
+    state: present
+    update_cache: true
+  become: true
+
+- name: Install Yarn globally via npm
+  ansible.builtin.npm:
+    name: yarn
+    global: true
+    state: present
+  become: true
+
+- name: Verify Node.js and yarn version
+  ansible.builtin.include_role:
+    name: verify-command
+  vars:
+    cmd: |
+      echo "node version $(node --version)"
+      echo "yarn version $(yarn --version)"

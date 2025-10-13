@@ -1,0 +1,90 @@
+  weather-agent:
+    image: {{ sub_project_name }}:latest
+    build: ./{{ sub_project_name }}
+    container_name: weather-agent
+    ports:
+      - 10001:10001
+    environment:
+      - AGENT_CARD=a2a_agents/agent_cards/weather_agent.json
+      - DOCKER_CONTAINER=true
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_GENAI_MODEL=gemini-2.0-flash
+      - HOST=0.0.0.0
+      - LITELLM_MODEL=gemini/gemini-2.0-flash
+      - MCP_ENABLED=true
+      - PORT=10001
+      - PYTHONUNBUFFERED=1
+    command: sh -c '/app/.venv/bin/python -m a2a_agents.__main__ --agent-card $${AGENT_CARD} --port $${PORT} --host $${HOST}'
+    networks:
+      - caremate-network
+    restart: unless-stopped
+
+  airbnb-agent:
+    image: {{ sub_project_name }}:latest
+    build: ./{{ sub_project_name }}
+    container_name: airbnb-agent
+    ports:
+      - 10002:10002
+    environment:
+      - AGENT_CARD=a2a_agents/agent_cards/airbnb_agent.json
+      - DOCKER_CONTAINER=true
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_GENAI_MODEL=gemini-2.0-flash
+      - HOST=0.0.0.0
+      - LITELLM_MODEL=gemini/gemini-2.0-flash
+      - MCP_ENABLED=true
+      - PORT=10002
+      - PYTHONUNBUFFERED=1
+    command: sh -c '/app/.venv/bin/python -m a2a_agents.__main__ --agent-card $${AGENT_CARD} --port $${PORT} --host $${HOST}'
+    networks:
+      - caremate-network
+    restart: unless-stopped
+
+  expense-agent:
+    image: {{ sub_project_name }}:latest
+    build: ./{{ sub_project_name }}
+    container_name: expense-agent
+    ports:
+      - 10003:10003
+    environment:
+      - AGENT_CARD=a2a_agents/agent_cards/expense_agent.json
+      - DOCKER_CONTAINER=true
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_GENAI_MODEL=gemini-2.0-flash
+      - HOST=0.0.0.0
+      - LITELLM_MODEL=gemini/gemini-2.0-flash
+      - MCP_ENABLED=true
+      - PORT=10003
+      - PYTHONUNBUFFERED=1
+    command: sh -c '/app/.venv/bin/python -m a2a_agents.__main__ --agent-card $${AGENT_CARD} --port $${PORT} --host $${HOST}'
+    networks:
+      - caremate-network
+    restart: unless-stopped
+
+  {{ sub_project_name }}:
+    image: {{ sub_project_name }}:latest
+    build: ./{{ sub_project_name }}
+    container_name: {{ sub_project_name }}
+    ports:
+      - 11000:11000
+    environment:
+      - DOCKER_CONTAINER=true
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - HOST_PORT=11000
+      - LLM_MODEL=gemini-2.0-flash
+      - PYTHONUNBUFFERED=1
+      - REQUEST_TIMEOUT=30
+      - WEATHER_AGENT_URL=http://weather-agent:10001
+      - AIRBNB_AGENT_URL=http://airbnb-agent:10002
+      - EXPENSE_AGENT_URL=http://expense-agent:10003
+    command: sh -c '/app/.venv/bin/python -m host_a2a.host_agent_client'
+    depends_on:
+      - weather-agent
+      - airbnb-agent
+      - expense-agent
+    networks:
+      - caremate-network
+    restart: unless-stopped

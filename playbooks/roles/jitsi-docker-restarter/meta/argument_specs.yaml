@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    options:
+      target_service:
+        type: str
+        required: true
+        choices: ['web', 'prosody', 'jicofo', 'jvb', 'transcriber']
+        description: >-
+          Target service on which to restart the Docker container

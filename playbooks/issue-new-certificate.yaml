@@ -1,0 +1,49 @@
+---
+- name: Issue Let's Encrypt certificate
+  hosts: culi-server
+  become: true
+  vars:
+    email: duongtq@fpt.com
+  tasks:
+    - name: Ensure snapd is installed
+      ansible.builtin.apt:
+        name: snapd
+        state: present
+        update_cache: yes
+
+    - name: Ensure Certbot via snap is installed
+      ansible.builtin.snap:
+        name: certbot
+        classic: true
+        state: present
+
+    - name: Ensure Certbot command is linked to /usr/bin/certbot
+      ansible.builtin.command: >
+        ln -sf /snap/bin/certbot /usr/bin/certbot
+      args:
+        creates: /usr/bin/certbot
+
+    - name: Stop nginx
+      ansible.builtin.service:
+        name: nginx
+        state: stopped
+
+    - name: Allow HTTP (port 80)
+      ansible.builtin.ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+
+    - name: Issue Let's Encrypt certificate for {{ domain_name }}
+      ansible.builtin.command: >
+        certbot certonly --standalone
+        --non-interactive --agree-tos
+        --email {{ email }}
+        -d {{ domain_name }}
+      args:
+        creates: '/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem'
+
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started

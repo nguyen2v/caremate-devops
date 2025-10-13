@@ -1,0 +1,33 @@
+#+title: Setup Chrome Remote Desktop
+#+date: <2025-02-06 Thu 21:32>
+#+startup: content
+#+property: header-args :noweb yes :results none
+#+filetags: ::
+- tags ::
+- source ::
+
+* Install Chrome Remote Desktop on the VM instance
+#+begin_src zsh
+wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+sudo apt-get install --assume-yes ./chrome-remote-desktop_current_amd64.deb
+#+end_src
+
+* Setup Ubuntu desktop environment
+#+begin_src zsh
+sudo apt install --yes ubuntu-desktop
+#+end_src
+
+* Setup Chrome Remote Desktop
+- Navigate to =https://remotedesktop.google.com/headless=
+- On =Set up another computer=, click =Begin= -> =Next= -> =Authorize=
+- Copy code from =Debian Linux=
+- SSH into VM
+#+begin_src zsh
+ssh dhp@34.69.209.232
+#+end_src
+
+- Paste the code above and press =Enter=
+- Enter your PIN code (this is required to remote to VM)
+- Navigate to =https://remotedesktop.google.com/access=
+- Click on =ubuntu-desktop= and enter your PIN code
+- Login to dhp user with password =dhp@12345=

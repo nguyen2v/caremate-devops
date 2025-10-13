@@ -1,0 +1,7 @@
+---
+- name: Fetch latest source code
+  ansible.builtin.git:
+    repo: '{{ repo }}'
+    dest: '{{ dest }}'
+    force: true
+    version: main

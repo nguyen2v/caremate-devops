@@ -1,0 +1,62 @@
+#+title: Setup Google Cloud
+#+date: <2025-01-08 Wed 15:10>
+#+startup: content
+#+property: header-args :noweb yes :results none
+#+filetags: ::
+- tags ::
+- source ::
+
+* Install =gcloud= CLI
+- Refer to this document: https://cloud.google.com/sdk/docs/install
+
+* Setup PROJECT_ID
+#+name: PROJECT_ID
+#+begin_src bash
+premium-bearing-456917-n2
+#+end_src
+
+* Login =gcloud=
+#+begin_src bash
+gcloud auth login
+#+end_src
+
+* Set application-default login
+#+begin_src bash
+gcloud auth application-default login
+#+end_src
+
+* Set default project
+- Set default project
+#+begin_src bash
+gcloud config set project <<PROJECT_ID>>
+#+end_src
+
+- Set quota project
+#+begin_src bash
+gcloud auth application-default set-quota-project <<PROJECT_ID>>
+#+end_src
+
+* Create GCS backend
+#+begin_src bash
+gcloud storage buckets create gs://<<PROJECT_ID>>-state --location=ASIA-SOUTHEAST1
+#+end_src
+
+* Enable gcloud services
+#+begin_src bash
+services=(
+  compute.googleapis.com
+  billingbudgets.googleapis.com
+  iam.googleapis.com
+  cloudresourcemanager.googleapis.com
+)
+
+for service in "${services[@]}"; do
+  echo "enable ${service}"
+  gcloud services enable ${service}
+done
+#+end_src
+
+* Verify enabled services
+#+begin_src bash
+gcloud services list --enabled
+#+end_src

@@ -1,0 +1,13 @@
+---
+- name: Add cengine-api service block to docker-compose
+  ansible.builtin.blockinfile:
+    dest: '{{ project_dir }}/docker-compose.yml'
+    marker: '  # {mark} ANSIBLE MANAGED CENGINE-API BLOCK'
+    content: "{{ lookup('template', 'cengine-api-service-block.j2') }}"
+
+- name: Build and start caremate-assistant
+  ansible.builtin.include_role:
+    name: docker-compose-helper
+  vars:
+    chdir: '{{ project_dir }}'
+    target_service: cengine-api

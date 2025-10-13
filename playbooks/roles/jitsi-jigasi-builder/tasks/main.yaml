@@ -1,0 +1,37 @@
+---
+- name: Check Jitsi Jigasi deb package
+  ansible.builtin.stat:
+    path: '{{ jitsi_jigasi_deb_path }}'
+  register: jitsi_jigasi_deb_stat
+
+- name: Run build script
+  ansible.builtin.command:
+    cmd: ./script/build_deb_package.sh
+    chdir: '{{ jitsi_jigasi_dir }}'
+  changed_when: false
+  when: not jitsi_jigasi_deb_stat.stat.exists
+
+- name: Copy Jitsi Jigasi deb package to jigasi docker folder
+  ansible.builtin.copy:
+    src: '{{ jitsi_jigasi_deb_path }}'
+    dest: '{{ jitsi_docker_dir }}/jigasi'
+    remote_src: true
+    mode: '0644'
+
+- name: Build Jitsi base-java docker
+  ansible.builtin.command:
+    cmd: make build_base-java
+    chdir: '{{ jitsi_docker_dir }}'
+  changed_when: false
+
+- name: Build Jitsi Jigasi docker
+  ansible.builtin.command:
+    cmd: make build_jigasi
+    chdir: '{{ jitsi_docker_dir }}'
+  changed_when: false
+
+- name: Restart Jitsi transcriber docker container
+  ansible.builtin.include_role:
+    name: jitsi-docker-restarter
+  vars:
+    target_service: transcriber

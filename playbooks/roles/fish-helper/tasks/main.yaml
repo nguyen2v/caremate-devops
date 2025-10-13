@@ -1,0 +1,27 @@
+---
+- name: Set default shell to fish
+  ansible.builtin.user:
+    name: '{{ ansible_user }}'
+    shell: /usr/bin/fish
+  become: true
+
+- name: Download fisher.fish script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish
+    dest: /tmp/fisher.fish
+    mode: '0644'
+
+- name: Install fisher
+  ansible.builtin.shell:
+    cmd: |
+      source /tmp/fisher.fish && fisher install jorgebucaran/fisher
+    creates: '{{ home_dir }}/.config/fish/functions/fisher.fish'
+  args:
+    executable: /usr/bin/fish
+
+- name: Install theme-l
+  ansible.builtin.shell:
+    cmd: fisher install oh-my-fish/theme-l
+    creates: '{{ home_dir }}/.config/fish/functions/fish_prompt.fish'
+  args:
+    executable: /usr/bin/fish

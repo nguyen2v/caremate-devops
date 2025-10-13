@@ -1,0 +1,13 @@
+---
+- name: Setup build Jitsi Docker stack
+  hosts: jitsi-server
+  roles:
+    - role: nodejs-installer
+
+    - role: java-installer
+
+    - role: deb-tools-installer
+
+    - role: zsh-helper
+
+    - role: git-configurator

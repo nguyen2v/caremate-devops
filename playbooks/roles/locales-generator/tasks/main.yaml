@@ -1,0 +1,12 @@
+---
+- name: Ensure locales package is installed
+  ansible.builtin.apt:
+    name: locales
+    state: present
+    update_cache: true
+  become: true
+
+- name: Generate en_US.UTF-8 locale
+  ansible.builtin.command: locale-gen en_US.UTF-8
+  changed_when: false
+  become: true

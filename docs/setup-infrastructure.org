@@ -1,0 +1,86 @@
+#+title: Setup Infrastructure
+#+date: <2025-01-08 Wed 15:21>
+#+startup: content
+#+property: header-args :noweb yes :results none :dir (projectile-project-root)
+#+filetags: ::
+- tags ::
+- source ::
+
+* Setup PROJECT_ID
+#+name: PROJECT_ID
+#+begin_src bash
+beaming-key-466311-v1
+#+end_src
+
+* Terraform Init
+#+begin_src bash
+terraform -chdir=<<PROJECT_ID>> init
+#+end_src
+
+* Terraform Plan
+#+begin_src bash
+terraform -chdir=<<PROJECT_ID>> plan
+#+end_src
+
+* Terraform Apply
+#+begin_src bash
+terraform -chdir=<<PROJECT_ID>> apply -auto-approve
+#+end_src
+
+* Add role to service account
+** Setup SERVICE_ACCOUNT
+#+name: SERVICE_ACCOUNT
+#+begin_src bash
+service-336386979681@compute-system.iam.gserviceaccount.com
+#+end_src
+
+** Run script
+#+begin_src bash
+gcloud projects add-iam-policy-binding <<PROJECT_ID>> \
+  --member=serviceAccount:<<SERVICE_ACCOUNT>> \
+  --role=roles/compute.admin
+#+end_src
+
+* Create snapshots
+** Cleanup docker build
+- SSH into =dhp-server= and =jitsi-server= then clean up docker build
+#+begin_src bash
+docker system prune
+#+end_src
+
+** Run Create snapshot script
+#+begin_src bash
+./scripts/create-snapshot.sh dhp-server
+./scripts/create-snapshot.sh jitsi-server
+#+end_src
+
+** Verify snapshots
+#+begin_src bash
+gcloud compute snapshots list
+#+end_src
+
+* Manage instances
+** List instances
+#+begin_src bash
+gcloud compute instances list
+#+end_src
+
+** Stop instance
+#+begin_src bash
+gcloud compute instances stop fcare-server
+#+end_src
+
+** Stop instance with zone
+#+begin_src bash
+gcloud compute instances stop ubuntu-desktop --zone us-central1-c
+#+end_src
+
+** Start instance
+#+begin_src bash
+gcloud compute instances start neo-jitsi-server
+#+end_src
+
+** Start instance with zone
+#+begin_src bash
+gcloud compute instances start ubuntu-desktop --zone us-central1-c
+#+end_src

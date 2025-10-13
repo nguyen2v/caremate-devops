@@ -1,0 +1,24 @@
+---
+- name: Ensure config and nginx folders exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0700'
+  loop:
+    - '{{ config_dir }}'
+    - '{{ config_dir }}/nginx'
+
+- name: Deploy nginx config template
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: '{{ config_dir }}/nginx/{{ domain_name }}.conf'
+    mode: '0644'
+  vars:
+    ssl_enabled: '{{ enable_ssl | default(false) }}'
+
+- name: Restart nginx
+  ansible.builtin.include_role:
+    name: docker-compose-helper
+  vars:
+    chdir: '{{ project_dir }}'
+    target_service: nginx

@@ -1,0 +1,41 @@
+---
+- name: List patches in order
+  ansible.builtin.find:
+    paths: '{{ project_dir }}/patches'
+    patterns: '*.patch'
+  register: patch_files
+
+- name: Initialize sorted_patches list
+  ansible.builtin.set_fact:
+    sorted_patches: []
+
+- name: Compute relative paths
+  ansible.builtin.set_fact:
+    sorted_patches: "{{ sorted_patches + [ item | combine({'rel_path': (item.path | replace(project_dir ~ '/', '')) }) ] }}"
+  loop: '{{ patch_files.files }}'
+
+- name: Sort patches by relative path
+  ansible.builtin.set_fact:
+    sorted_patches: "{{ sorted_patches | sort(attribute='rel_path') }}"
+
+- name: Apply patches one-by-one
+  ansible.builtin.command:
+    # noqa: command-instead-of-module
+    cmd: git apply {{ item.rel_path }}
+  args:
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  loop: '{{ sorted_patches }}'
+
+- name: Run git status
+  ansible.builtin.command:
+    # noqa: command-instead-of-module
+    cmd: git status
+  args:
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  register: git_status
+
+- name: Debug git status
+  ansible.builtin.debug:
+    var: git_status.stdout_lines

@@ -1,0 +1,94 @@
+---
+- name: Install core packages
+  ansible.builtin.apt:
+    name:
+      - git
+      - unzip
+      - zsh
+    state: present
+    update_cache: true
+  become: true
+
+- name: Set default shell to Zsh
+  ansible.builtin.user:
+    name: '{{ ansible_user }}'
+    shell: /usr/bin/zsh
+  become: true
+
+- name: Config zshrc
+  ansible.builtin.blockinfile:
+    path: '{{ home_dir }}/.zshrc'
+    marker: '# {mark} ANSIBLE MANAGED ZSHRC BLOCK'
+    block: |
+      # Set environment variables
+      export DEBEMAIL=duongtq@fpt.com
+      export EDITOR="nvim"
+
+      # Zsh history settings (for tmux and shared sessions)
+      export HISTFILE=~/.zsh_history
+      export HISTSIZE=10000
+      export SAVEHIST=10000
+
+      setopt APPEND_HISTORY
+      setopt EXTENDED_HISTORY
+      setopt HIST_FIND_NO_DUPS
+      setopt HIST_IGNORE_ALL_DUPS
+      setopt SHARE_HISTORY
+
+      # Init zinit
+      ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+      [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+      [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+      source "${ZINIT_HOME}/zinit.zsh"
+
+      # Config zinit
+      zinit ice depth=1
+
+      # Add in zsh plugins
+      zinit light Aloxaf/fzf-tab
+      zinit light zsh-users/zsh-autosuggestions
+      zinit light zsh-users/zsh-completions
+      zinit light zsh-users/zsh-syntax-highlighting
+
+      # Add in snippets
+      zinit snippet OMZP::docker
+      zinit snippet OMZP::docker-compose
+      zinit snippet OMZP::git
+
+      # Load completions
+      autoload -Uz compinit && compinit
+      zinit cdreplay -q
+
+      # Use emacs key bindings
+      bindkey -e
+      bindkey '\C-p' history-search-backward
+      bindkey '\C-n' history-search-forward
+
+      # Aliases
+      alias ll='ls -l'
+    create: true
+    mode: '0644'
+
+- name: Ensure .config/zsh folder exists
+  ansible.builtin.file:
+    path: '{{ home_dir }}/.config/zsh'
+    state: directory
+    mode: '0755'
+
+- name: Copy Oh-My-Posh theme to .config/zsh
+  ansible.builtin.template:
+    src: omp-config.json.j2
+    dest: '{{ home_dir }}/.config/zsh/powerlevel10k_lean.omp.json'
+    mode: '0644'
+
+- name: Ensure ~/.zsh_history file exists
+  ansible.builtin.file:
+    path: '{{ home_dir }}/.zsh_history'
+    state: touch
+    mode: '0644'
+
+- name: Ensure zinit completions directory exists
+  ansible.builtin.file:
+    path: '{{ home_dir }}/.cache/zinit/completions'
+    state: directory
+    mode: '0755'

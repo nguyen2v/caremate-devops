@@ -1,0 +1,12 @@
+---
+- name: Stop Jitsi docker container {{ target_service }}
+  ansible.builtin.command:
+    cmd: docker compose down {{ target_service }}
+    chdir: '{{ jitsi_docker_dir }}'
+  changed_when: false
+
+- name: Start Jitsidocker container {{ target_service }}
+  ansible.builtin.command:
+    cmd: docker compose up -d {{ target_service }}
+    chdir: '{{ jitsi_docker_dir }}'
+  changed_when: false

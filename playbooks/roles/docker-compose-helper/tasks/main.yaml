@@ -1,0 +1,35 @@
+---
+- name: Check current working directory
+  ansible.builtin.command:
+    cmd: pwd
+    chdir: '{{ chdir }}'
+  changed_when: false
+
+- name: Build {{ target_service }}
+  ansible.builtin.command:
+    cmd: docker compose build {{ target_service }}
+    chdir: '{{ chdir }}'
+  changed_when: false
+
+- name: Stop {{ target_service }}
+  ansible.builtin.command:
+    cmd: docker compose down {{ target_service }}
+    chdir: '{{ chdir }}'
+  changed_when: false
+
+- name: Start {{ target_service }}
+  ansible.builtin.command:
+    cmd: docker compose up -d {{ target_service }}
+    chdir: '{{ chdir }}'
+  changed_when: false
+
+- name: Query logs for {{ target_service }}
+  ansible.builtin.command:
+    cmd: docker compose logs --tail 100 {{ target_service }}
+    chdir: '{{ chdir }}'
+  changed_when: false
+  register: service_logs
+
+- name: Display logs for {{ target_service }}
+  ansible.builtin.debug:
+    var: service_logs.stdout_lines
