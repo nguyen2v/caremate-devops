@@ -77,7 +77,7 @@
 
 - name: Copy Oh-My-Posh theme to .config/zsh
   ansible.builtin.template:
-    src: omp-config.json.j2
+    src: omp-config.json.jinja
     dest: '{{ home_dir }}/.config/zsh/powerlevel10k_lean.omp.json'
     mode: '0644'
 

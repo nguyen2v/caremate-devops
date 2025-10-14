@@ -1,0 +1,14 @@
+  {{ sub_project_name }}:
+    image: {{ sub_project_name }}:latest
+    build: ./{{ sub_project_name }}
+    container_name: {{ sub_project_name }}
+    environment:
+      - AUDIO_DIR=data_audio
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - 8004:8000
+    networks:
+      - caremate-network
+    volumes:
+      - ./data_audio:/app/data_audio
+    restart: unless-stopped

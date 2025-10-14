@@ -142,3 +142,10 @@ ansible-playbook playbooks/deploy-care-assistant.yaml --verbose
 #+begin_src bash
 ansible-playbook playbooks/deploy-cengine-api.yaml --verbose
 #+end_src
+
+* Deploy mental-care
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "mental-care" }' \
+  --verbose
+#+end_src

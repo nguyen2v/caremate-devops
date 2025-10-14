@@ -23,6 +23,10 @@ upstream cengine-api {
   server cengine-api:8000;
 }
 
+upstream mental-care {
+  server mental-care:8000;
+}
+
 upstream neo4j-browser {
   server neo4j:7474;
 }
@@ -98,6 +102,10 @@ server {
 
   location /cengine/ {
     proxy_pass http://cengine-api/;
+  }
+
+  location /mental-care/ {
+    proxy_pass http://mental-care/;
   }
 
   location / {

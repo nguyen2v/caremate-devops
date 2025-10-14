@@ -18,6 +18,7 @@ argument_specs:
           - caremate-agent
           - caremate-mcp
           - cengine-api
+          - mental-care
           - nginx
           - postgres
           - redis
