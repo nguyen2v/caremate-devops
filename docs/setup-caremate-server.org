@@ -101,10 +101,15 @@ ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
 #+end_src
 
 ** Run deployment
-- Replace hash with git sha in =caremate=
+- Run the command below in in =caremate= to get the latest hash
+#+begin_src bash
+git rev-parse --short HEAD
+#+end_src
+
+- Use the =hash= above to deploy caremate-server (replace =GIT_SHA= with value from above)
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-server.yaml \
-  --extra-vars='{ "hash": "947e73d" }' \
+  --extra-vars='{ "hash": "<<GIT_SHA>>" }' \
   --verbose
 #+end_src
 
