@@ -103,7 +103,7 @@ ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
 - Replace hash with git sha in =caremate=
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-server.yaml \
-  --extra-vars='{ "hash": "aa5f59f" }' \
+  --extra-vars='{ "hash": "947e73d" }' \
   --verbose
 #+end_src
 
@@ -124,7 +124,6 @@ ansible-playbook playbooks/setup-nginx.yaml --verbose
 #+begin_src bash
 ansible-playbook playbooks/deploy-ai-scribe.yaml --verbose
 #+end_src
-
 
 * Deploy caremate-agent
 #+begin_src bash

@@ -16,7 +16,7 @@ locals {
       address      = "35.240.144.76"
       machine_type = local.machine_type.e2_medium
       region       = local.region_southeast1
-      status       = local.running
+      status       = local.terminated
       zone         = local.zone_southeast1
     },
     "jitsi-server" = {
@@ -43,7 +43,7 @@ module "servers" {
   additional_udp_ports = lookup(each.value, "udp_ports", [])
   ssh_keys             = lookup(each.value, "ssh_keys", "")
 
-  resource_policy_id    = try(google_compute_resource_policy.all_day_08_to_23[each.value.region].id, null)
+  # resource_policy_id    = try(google_compute_resource_policy.all_day_08_to_23[each.value.region].id, null)
   server_name           = each.key
   server_status         = each.value.status
   service_account_email = google_service_account.this.email
