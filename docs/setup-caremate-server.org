@@ -87,6 +87,7 @@ ansible-playbook playbooks/setup-nginx.yaml \
 | ai-scribe       |                            8000:8000 |
 | care-assistant  |                            3002:3002 |
 | cengine-api     |                            8003:8000 |
+| mental-care     |                            8004:8000 |
 
 * Deploy caremate-server
 ** Update source code, apply patch and env
