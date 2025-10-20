@@ -23,7 +23,7 @@ locals {
       address      = "34.142.157.137"
       machine_type = local.machine_type.e2_medium
       region       = local.region_southeast1
-      status       = local.running
+      status       = local.terminated
       tcp_ports    = ["5222", "5349"]
       udp_ports    = ["10000"]
       zone         = local.zone_southeast1
