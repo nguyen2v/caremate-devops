@@ -2,8 +2,8 @@
     image: certbot/certbot
     container_name: certbot
     volumes:
-    - ${CONFIG_DIR}/certbot/conf:/etc/letsencrypt
-    - ${CONFIG_DIR}/certbot/www:/var/www/certbot
+      - ${CONFIG_DIR}/certbot/conf:/etc/letsencrypt
+      - ${CONFIG_DIR}/certbot/www:/var/www/certbot
     command: >
       certonly --agree-tos
         --domain {{ domain_name }}

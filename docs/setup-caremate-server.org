@@ -63,7 +63,7 @@ ansible-playbook playbooks/setup-caremate-project.yaml --verbose
 
 - Wait for DNS propagation (use `dig api.yourdomain.com` to verify)
 #+begin_src bash
-dig +short api.fpt.healthcare
+dig +short api.fpt-healthcare.com
 #+end_src
 
 ** Step 2: Issue new certificate
@@ -106,10 +106,10 @@ ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
 git rev-parse --short HEAD
 #+end_src
 
-- Use the =hash= above to deploy caremate-server (replace =GIT_SHA= with value from above)
+- Use the =hash= above to deploy caremate-server (replace the value of =hash= with the value from above)
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-server.yaml \
-  --extra-vars='{ "hash": "<<GIT_SHA>>" }' \
+  --extra-vars='{ "hash": "5cb758b" }' \
   --verbose
 #+end_src
 
@@ -121,7 +121,7 @@ export GITHUB_SHA=aa5f59f
 ./scripts/build-docker-server.sh
 #+end_src
 
-* Run nginx
+* Deploy nginx
 #+begin_src bash
 ansible-playbook playbooks/setup-nginx.yaml --verbose
 #+end_src
@@ -143,9 +143,17 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 ansible-playbook playbooks/deploy-care-assistant.yaml --verbose
 #+end_src
 
+* Deploy caremate-mcp
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-mcp.yaml \
+  --verbose
+#+end_src
+
 * Deploy cengine-api
 #+begin_src bash
-ansible-playbook playbooks/deploy-cengine-api.yaml --verbose
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "cengine-api" }' \
+  --verbose
 #+end_src
 
 * Deploy mental-care

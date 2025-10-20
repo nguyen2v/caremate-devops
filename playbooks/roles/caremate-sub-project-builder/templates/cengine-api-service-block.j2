@@ -5,7 +5,7 @@
     environment:
       - ACCESS_TOKEN_EXPIRE_MINUTES=10
       - ALGORITHM=HS256
-      - CORS_ORIGINS=https://api.fpt.healthcare,https://sdlc-engine.web.app,http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,null
+      - CORS_ORIGINS=https://{{ domain_name }},https://sdlc-engine.web.app,http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,null
       - DOCS_URL=/api/v1/docs
       - LOG_LEVEL=INFO
       - OPENAPI_URL=/api/v1/openapi.json

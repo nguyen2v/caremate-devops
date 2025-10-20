@@ -1,6 +1,6 @@
 ---
 config_dir: '{{ home_dir }}/.caremate-config'
-domain_name: api.fpt.healthcare
+domain_name: api.fpt-healthcare.com
 app_domain_name: caremate-emr.web.app
 project_name: caremate
 project_dir: '{{ home_dir }}/{{ project_name }}'
