@@ -1,11 +1,11 @@
-#+title: Setup Server With Ansible
-#+date: <2025-04-18 Fri 11:47>
+#+title: Setup Jitsi Server
+#+date: <2025-10-22 Wed 09:08>
 #+startup: content
-#+property: header-args :noweb yes :dir (projectile-project-root) :results none
-#+filetags: :Setup:Ansible:
+#+property: header-args :noweb yes
+#+filetags: :Setup:Jitsi:
 
 * Add new server IP to /etc/hosts
-- Add jiti-server IP to your =/etc/hosts=
+- Add jitsi-server IP to your =/etc/hosts=
 #+begin_src conf
 34.142.157.137 jitsi-server
 #+end_src
@@ -27,7 +27,7 @@ ansible-playbook -v playbooks/setup-docker.yaml
 
 * Setup Jitsi Meet
 ** Configure DNS
-- Navigate to =https://ap.www.namecheap.com/domains/domaincontrolpanel/fpt.healthcare/domain=
+- Navigate to your DNS Settngs
 - Go to =Advanced DNS= then add or edit record with host =meet= like table below:
 | Type     | Host |          Value | TTL       |
 |----------+------+----------------+-----------|
@@ -83,3 +83,6 @@ docker compose logs web
 #+begin_src bash
 docker compose logs transcriber
 #+end_src
+
+* Update domain
+- Once update domain, ssh into jitsi-server and update =PUBLIC_URL= and =LETSENCRYPT_DOMAIN= in =.env= file

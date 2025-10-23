@@ -4,8 +4,13 @@
   vars:
     hash: lastest
   roles:
+    - role: git-puller
+      repo: 'git@github.com:nguyen2v/{{ project_name }}.git'
+      dest: '{{ project_name }}'
+
     - role: caremate-builder
       github_sha: '{{ hash }}'
+
   tasks:
     - name: Build and restart server docker container
       ansible.builtin.include_role:
