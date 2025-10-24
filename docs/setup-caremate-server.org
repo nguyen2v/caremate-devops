@@ -108,6 +108,14 @@ export GITHUB_SHA=aa5f59f
 ./scripts/build-docker-server.sh
 #+end_src
 
+** Env files
+#+begin_src
+caremate-server% ll .env
+-rw-r--r-- 1 dhp dhp 1080 Oct 24 10:44 .env
+caremate-server% ll ~/.caremate-config/caremate.config.json
+-rw-r--r-- 1 dhp dhp 3212 Oct 24 10:44 /home/dhp/.caremate-config/caremate.config.json
+#+end_src
+
 * Deploy nginx
 #+begin_src bash
 ansible-playbook playbooks/setup-nginx.yaml --verbose

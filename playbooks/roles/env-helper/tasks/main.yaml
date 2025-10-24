@@ -16,3 +16,9 @@
     src: caremate.config.json.j2
     dest: '{{ config_dir }}/caremate.config.json'
     mode: '0644'
+
+- name: Ensure binary folder exists
+  ansible.builtin.file:
+    path: '{{ project_dir }}/binary'
+    state: directory
+    mode: '0777'
