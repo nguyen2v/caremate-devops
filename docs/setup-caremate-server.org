@@ -90,27 +90,14 @@ ansible-playbook playbooks/setup-nginx.yaml \
 | mental-care     |                            8004:8000 |
 
 * Deploy caremate-server
-** Update source code, apply patch and env
-#+begin_src bash
-ansible-playbook playbooks/setup-caremate-project.yaml --verbose
-#+end_src
-
 ** Update env
 #+begin_src bash
 ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
 #+end_src
 
-** Deploy
-- Run the command below in =caremate= to get the latest hash
+** Deploy server
 #+begin_src bash
-git rev-parse --short HEAD
-#+end_src
-
-- Use the =hash= above to deploy caremate-server (replace the value of =hash= with the value from above)
-#+begin_src bash
-ansible-playbook playbooks/deploy-caremate-server.yaml \
-  --extra-vars='{ "hash": "3b635c3" }' \
-  --verbose
+ansible-playbook playbooks/deploy-caremate-server.yaml --verbose
 #+end_src
 
 ** Deploy manually
