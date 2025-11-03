@@ -66,12 +66,6 @@
     var: docker_images.stdout_lines
   when: not skip_build
 
-- name: Ensure binary folder exists
-  ansible.builtin.file:
-    path: '{{ project_dir }}/binary'
-    state: directory
-    mode: '0777'
-
 - name: Build and start server
   ansible.builtin.include_role:
     name: docker-compose-helper

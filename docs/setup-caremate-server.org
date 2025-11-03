@@ -151,6 +151,11 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
   --verbose
 #+end_src
 
+** Seed data
+#+begin_src bash
+ansible-playbook playbooks/seed-cengine-api.yaml
+#+end_src
+
 * Deploy mental-care
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \

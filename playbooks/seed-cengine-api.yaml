@@ -1,0 +1,31 @@
+---
+- name: Seed cengine-api
+  hosts: caremate-server
+  tasks:
+    - name: Drop and re-create database
+      ansible.builtin.command:
+        cmd: |
+          docker exec -it postgres psql -U medplum -d postgres -c "DROP DATABASE IF EXISTS cengine_api WITH (FORCE);"
+          docker exec -it postgres psql -U medplum -d postgres -c "CREATE DATABASE cengine_api;"
+      args:
+        chdir: '{{ project_dir }}'
+      changed_when: false
+      register: drop_database
+
+    - name: Print drop database output
+      ansible.builtin.debug:
+        msg: drop_database.stdout
+
+    - name: Run seed script
+      ansible.builtin.command:
+        cmd: |
+          docker exec -it cengine-api poetry run alembic upgrade head
+          docker exec -it cengine-api bash -c 'yes | poetry run python scripts/insert_sample_data.py'
+      args:
+        chdir: '{{ project_dir }}'
+      changed_when: false
+      register: seed_data
+
+    - name: Print seed data output
+      ansible.builtin.debug:
+        msg: seed_data.output
