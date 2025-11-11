@@ -25,7 +25,7 @@
 
 - name: Query logs for {{ target_service }}
   ansible.builtin.command:
-    cmd: docker compose logs --tail 100 {{ target_service }}
+    cmd: sleep 10 && docker compose logs --tail 100 {{ target_service }}
     chdir: '{{ chdir }}'
   changed_when: false
   register: service_logs
