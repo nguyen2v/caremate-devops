@@ -23,9 +23,13 @@
     chdir: '{{ chdir }}'
   changed_when: false
 
+- name: Wait before querying logs
+  ansible.builtin.pause:
+    seconds: 10
+
 - name: Query logs for {{ target_service }}
   ansible.builtin.command:
-    cmd: sleep 10 && docker compose logs --tail 100 {{ target_service }}
+    cmd: docker compose logs --tail 100 {{ target_service }}
     chdir: '{{ chdir }}'
   changed_when: false
   register: service_logs
