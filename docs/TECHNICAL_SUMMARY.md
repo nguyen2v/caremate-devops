@@ -28,6 +28,7 @@
 **Caremate DevOps** is an Infrastructure-as-Code (IaC) repository that provisions and manages a cloud-native healthcare platform on Google Cloud Platform (GCP). The system consists of multiple microservices orchestrated via Docker Compose, deployed across two primary servers using Ansible automation.
 
 ### Key Characteristics:
+
 - **Cloud Platform:** Google Cloud Platform (Project: `beaming-key-466311-v1`)
 - **Infrastructure:** Terraform-managed compute instances
 - **Configuration Management:** Ansible playbooks and roles
@@ -36,6 +37,7 @@
 - **Security:** Let's Encrypt SSL/TLS, Firebase authentication, vault-encrypted secrets
 
 ### Primary Servers:
+
 1. **caremate-server** (34.126.130.128) - Main application backend and microservices
 2. **jitsi-server** (34.142.157.137) - Video conferencing platform
 
@@ -120,79 +122,88 @@ Database Layer:
 ## Technology Stack
 
 ### Infrastructure & Cloud
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Cloud Provider | Google Cloud Platform | - |
-| Infrastructure as Code | Terraform | ~1.0 |
-| GCP Provider | terraform-google-provider | ~5.38.0 |
-| Compute | Google Compute Engine | e2-medium, e2-standard-2 |
-| Storage | Google Cloud Storage | State backend |
-| Authentication | GCP Service Accounts | IAM-based |
+
+| Component              | Technology                | Version                  |
+| ---------------------- | ------------------------- | ------------------------ |
+| Cloud Provider         | Google Cloud Platform     | -                        |
+| Infrastructure as Code | Terraform                 | ~1.0                     |
+| GCP Provider           | terraform-google-provider | ~5.38.0                  |
+| Compute                | Google Compute Engine     | e2-medium, e2-standard-2 |
+| Storage                | Google Cloud Storage      | State backend            |
+| Authentication         | GCP Service Accounts      | IAM-based                |
 
 ### Configuration Management
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Automation Tool | Ansible | 2.9+ |
-| Python | Python | 3.x |
-| SSH Keys | Ed25519, RSA | - |
-| Secrets Management | Ansible Vault | - |
+
+| Component          | Technology    | Version |
+| ------------------ | ------------- | ------- |
+| Automation Tool    | Ansible       | 2.9+    |
+| Python             | Python        | 3.x     |
+| SSH Keys           | Ed25519, RSA  | -       |
+| Secrets Management | Ansible Vault | -       |
 
 ### Container & Orchestration
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Container Runtime | Docker CE | Latest |
-| Orchestration | Docker Compose | Plugin |
-| Build Tools | docker-buildx | Plugin |
+
+| Component         | Technology     | Version |
+| ----------------- | -------------- | ------- |
+| Container Runtime | Docker CE      | Latest  |
+| Orchestration     | Docker Compose | Plugin  |
+| Build Tools       | docker-buildx  | Plugin  |
 
 ### Application Runtime
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Backend Runtime | Node.js | 22.x LTS |
-| Python Runtime | Python | 3.x |
-| Package Managers | npm, Yarn | Latest |
-| Python Package Manager | Poetry | Latest |
+
+| Component              | Technology | Version  |
+| ---------------------- | ---------- | -------- |
+| Backend Runtime        | Node.js    | 22.x LTS |
+| Python Runtime         | Python     | 3.x      |
+| Package Managers       | npm, Yarn  | Latest   |
+| Python Package Manager | Poetry     | Latest   |
 
 ### Databases
-| Component | Technology | Port | Purpose |
-|-----------|-----------|------|---------|
-| Relational DB | PostgreSQL | 5432 | Primary data store (medplum, cengine_api) |
-| Graph DB | Neo4j | 7474 (HTTP), 7687 (Bolt) | Knowledge graphs |
-| Cache/Queue | Redis | 6379 | Caching & BullMQ job queue |
-| Vector DB | Chroma | 8001 | AI embeddings |
+
+| Component     | Technology | Port                     | Purpose                                   |
+| ------------- | ---------- | ------------------------ | ----------------------------------------- |
+| Relational DB | PostgreSQL | 5432                     | Primary data store (medplum, cengine_api) |
+| Graph DB      | Neo4j      | 7474 (HTTP), 7687 (Bolt) | Knowledge graphs                          |
+| Cache/Queue   | Redis      | 6379                     | Caching & BullMQ job queue                |
+| Vector DB     | Chroma     | 8001                     | AI embeddings                             |
 
 ### Microservices Framework
-| Component | Technology | Language | Port |
-|-----------|-----------|----------|------|
+
+| Component       | Technology      | Language              | Port |
+| --------------- | --------------- | --------------------- | ---- |
 | caremate-server | Medplum/Node.js | TypeScript/JavaScript | 8103 |
-| cengine-api | FastAPI | Python | 8003 |
-| care-assistant | Custom | Python | 3002 |
-| ai-scribe | FastAPI | Python | 8000 |
-| mental-care | Custom | Python | 8004 |
-| caremate-mcp | Custom | Python | TBD |
+| cengine-api     | FastAPI         | Python                | 8003 |
+| care-assistant  | Custom          | Python                | 3002 |
+| ai-scribe       | FastAPI         | Python                | 8000 |
+| mental-care     | Custom          | Python                | 8004 |
+| caremate-mcp    | Custom          | Python                | TBD  |
 
 ### Web Services & Security
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| Reverse Proxy | Nginx | SSL termination, routing |
-| SSL/TLS | Let's Encrypt (Certbot) | HTTPS certificates |
-| Authentication | Firebase | User authentication |
-| OAuth | OpenID Connect | OAuth 2.0 support |
-| Bot Protection | Google reCAPTCHA | Form protection |
+
+| Component      | Technology              | Purpose                  |
+| -------------- | ----------------------- | ------------------------ |
+| Reverse Proxy  | Nginx                   | SSL termination, routing |
+| SSL/TLS        | Let's Encrypt (Certbot) | HTTPS certificates       |
+| Authentication | Firebase                | User authentication      |
+| OAuth          | OpenID Connect          | OAuth 2.0 support        |
+| Bot Protection | Google reCAPTCHA        | Form protection          |
 
 ### Video Conferencing
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| Video Platform | Jitsi Meet | Video calls |
-| XMPP Server | Prosody | Messaging |
-| Video Bridge | JVB | Video routing |
-| Conference Focus | Jicofo | Conference management |
-| Transcription | Jigasi | Speech-to-text |
+
+| Component        | Technology | Purpose               |
+| ---------------- | ---------- | --------------------- |
+| Video Platform   | Jitsi Meet | Video calls           |
+| XMPP Server      | Prosody    | Messaging             |
+| Video Bridge     | JVB        | Video routing         |
+| Conference Focus | Jicofo     | Conference management |
+| Transcription    | Jigasi     | Speech-to-text        |
 
 ### Message Queue & Jobs
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| Job Queue | BullMQ | Background job processing |
-| Message Broker | Redis | BullMQ backend |
+
+| Component      | Technology | Purpose                   |
+| -------------- | ---------- | ------------------------- |
+| Job Queue      | BullMQ     | Background job processing |
+| Message Broker | Redis      | BullMQ backend            |
 
 ---
 
@@ -201,6 +212,7 @@ Database Layer:
 ### Server Specifications
 
 #### Caremate Server
+
 - **Instance Type:** e2-standard-2
 - **vCPUs:** 2
 - **RAM:** 8 GB
@@ -211,6 +223,7 @@ Database Layer:
 - **Purpose:** Primary application server, databases, microservices
 
 #### Jitsi Server
+
 - **Instance Type:** e2-medium
 - **vCPUs:** 2
 - **RAM:** 4 GB
@@ -223,6 +236,7 @@ Database Layer:
 ### Network Architecture
 
 #### Firewall Rules
+
 - **Port 22:** SSH access (limited to authorized IPs)
 - **Port 80:** HTTP (redirects to HTTPS)
 - **Port 443:** HTTPS (SSL/TLS)
@@ -233,10 +247,12 @@ Database Layer:
 - **Port 10000 UDP:** JVB Video (Jitsi)
 
 #### DNS Configuration
+
 - **api.fpt-healthcare.com** → 34.126.130.128 (caremate-server)
 - **jitsi.yourdomain.com** → 34.142.157.137 (jitsi-server)
 
 ### Storage & State Management
+
 - **Terraform State:** Google Cloud Storage bucket (`${PROJECT_ID}-state`)
 - **Docker Volumes:** Persistent volumes for PostgreSQL, Neo4j, Redis
 - **Binary Storage:** File system storage for caremate-server uploads
@@ -248,6 +264,7 @@ Database Layer:
 ### Local Development Machine Requirements
 
 #### Required Software
+
 1. **Operating System:** Linux, macOS, or Windows with WSL2
 2. **Google Cloud CLI (`gcloud`):** Latest version
    - Installation: https://cloud.google.com/sdk/docs/install
@@ -260,6 +277,7 @@ Database Layer:
 7. **SSH Client:** OpenSSH or equivalent
 
 #### Google Cloud Platform Account
+
 - Active GCP account with billing enabled
 - Project created (e.g., `beaming-key-466311-v1`)
 - Sufficient quotas for Compute Engine instances
@@ -270,17 +288,21 @@ Database Layer:
   - Billing Account User
 
 #### SSH Key Pair
+
 - Ed25519 or RSA SSH key pair generated
 - Public key added to GCP Compute Engine metadata
 - Private key available on local machine (`~/.ssh/id_ed25519` or `~/.ssh/id_rsa`)
 
 #### Domain & DNS
+
 - Registered domain name (e.g., `fpt-healthcare.com`)
 - Access to DNS management (Namecheap, Cloudflare, etc.)
 - Ability to create A records
 
 #### Required Credentials (Vault-Encrypted)
+
 The following credentials must be configured in `playbooks/group_vars/all/vault.yml`:
+
 - PostgreSQL username/password
 - SMTP credentials (Gmail)
 - API keys (OpenAI, Gemini, Mistral, Google)
@@ -291,6 +313,7 @@ The following credentials must be configured in `playbooks/group_vars/all/vault.
 - Database connection strings
 
 #### Network Access
+
 - SSH access to GCP instances (port 22)
 - Ability to make outbound HTTPS requests
 - No corporate firewall blocking GCP API calls
@@ -306,6 +329,7 @@ This section provides step-by-step instructions to set up the Caremate infrastru
 #### Step 1: Install Google Cloud CLI
 
 **On Linux/macOS:**
+
 ```bash
 # Download and run the installer
 curl https://sdk.cloud.google.com | bash
@@ -318,6 +342,7 @@ gcloud init
 ```
 
 **On Windows (WSL2):**
+
 ```bash
 # Same as Linux
 curl https://sdk.cloud.google.com | bash
@@ -326,6 +351,7 @@ gcloud init
 ```
 
 **Verify installation:**
+
 ```bash
 gcloud version
 ```
@@ -333,6 +359,7 @@ gcloud version
 #### Step 2: Install Terraform
 
 **On Linux:**
+
 ```bash
 wget https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
 unzip terraform_1.6.0_linux_amd64.zip
@@ -341,6 +368,7 @@ terraform --version
 ```
 
 **On macOS:**
+
 ```bash
 brew tap hashicorp/tap
 brew install hashicorp/tap/terraform
@@ -442,6 +470,7 @@ terraform -chdir=beaming-key-466311-v1 init
 ```
 
 Expected output:
+
 ```
 Initializing the backend...
 Successfully configured the backend "gcs"!
@@ -459,11 +488,13 @@ Terraform has been successfully initialized!
 5. **`beaming-key-466311-v1/firewall.tf`**: Firewall rules (in module)
 
 **Review local variables:**
+
 ```bash
 cat beaming-key-466311-v1/locals.tf
 ```
 
 **Customize if needed:**
+
 - Machine types
 - Zones/regions
 - Network settings
@@ -476,6 +507,7 @@ terraform -chdir=beaming-key-466311-v1 plan
 ```
 
 Review the plan carefully. You should see:
+
 - 2 compute instances (caremate-server, jitsi-server)
 - Firewall rules
 - Service accounts
@@ -489,6 +521,7 @@ terraform -chdir=beaming-key-466311-v1 apply -auto-approve
 ```
 
 **This will create:**
+
 - Caremate server instance
 - Jitsi server instance
 - Firewall rules
@@ -509,6 +542,7 @@ gcloud compute instances list
 ```
 
 **Get external IPs:**
+
 ```bash
 # Caremate server IP
 gcloud compute instances describe caremate-server \
@@ -529,12 +563,13 @@ gcloud compute instances describe jitsi-server \
 
 **Login to your DNS provider** (Namecheap, Cloudflare, etc.) and add these records:
 
-| Type | Host | Value | TTL |
-|------|------|-------|-----|
-| A Record | api | 34.126.130.128 | 300 |
+| Type     | Host  | Value          | TTL |
+| -------- | ----- | -------------- | --- |
+| A Record | api   | 34.126.130.128 | 300 |
 | A Record | jitsi | 34.142.157.137 | 300 |
 
 **Example for `fpt-healthcare.com`:**
+
 - `api.fpt-healthcare.com` → `34.126.130.128`
 - `jitsi.fpt-healthcare.com` → `34.142.157.137`
 
@@ -569,6 +604,7 @@ sudo nano /etc/hosts
 ```
 
 **Verify:**
+
 ```bash
 ping -c 3 caremate-server
 ping -c 3 jitsi-server
@@ -577,6 +613,7 @@ ping -c 3 jitsi-server
 #### Step 17: Configure SSH Access
 
 **Test SSH connection:**
+
 ```bash
 # SSH into caremate-server (user: dhp)
 ssh dhp@caremate-server
@@ -586,6 +623,7 @@ gcloud compute ssh dhp@caremate-server --zone=asia-southeast1-a
 ```
 
 **Exit the SSH session:**
+
 ```bash
 exit
 ```
@@ -593,11 +631,13 @@ exit
 #### Step 18: Configure Ansible Inventory
 
 **Edit `playbooks/inventory.ini`:**
+
 ```bash
 cat playbooks/inventory.ini
 ```
 
 **Ensure it contains:**
+
 ```ini
 [caremate-server]
 caremate-server ansible_host=34.126.130.128
@@ -607,6 +647,7 @@ jitsi-server ansible_host=34.142.157.137
 ```
 
 **Edit if needed:**
+
 ```bash
 nano playbooks/inventory.ini
 ```
@@ -614,43 +655,47 @@ nano playbooks/inventory.ini
 #### Step 19: Configure Ansible Vault
 
 **Create vault password file** (DO NOT commit this):
+
 ```bash
 echo "your-strong-vault-password" > ~/.ansible_vault_pass
 chmod 600 ~/.ansible_vault_pass
 ```
 
 **Edit vault file:**
+
 ```bash
 ansible-vault edit playbooks/group_vars/all/vault.yml
 ```
 
 **Add required secrets:**
+
 ```yaml
 ---
 # PostgreSQL
 postgres_username: medplum
-postgres_password: "your-postgres-password"
+postgres_password: 'your-postgres-password'
 
 # SMTP (Gmail)
-smtp_username: "your-email@gmail.com"
-smtp_password: "your-gmail-app-password"
+smtp_username: 'your-email@gmail.com'
+smtp_password: 'your-gmail-app-password'
 
 # API Keys
-openai_api_key: "sk-..."
-gemini_api_key: "..."
-google_api_key: "..."
-mistral_api_key: "..."
-chroma_api_key: "..."
+openai_api_key: 'sk-...'
+gemini_api_key: '...'
+google_api_key: '...'
+mistral_api_key: '...'
+chroma_api_key: '...'
 
 # Neo4j
-neo4j_password: "your-neo4j-password"
+neo4j_password: 'your-neo4j-password'
 
 # Cengine
-alembic_database_url: "postgresql://medplum:your-password@postgres:5432/cengine_api"
-cengine_secret_key: "your-secret-key"
+alembic_database_url: 'postgresql://medplum:your-password@postgres:5432/cengine_api'
+cengine_secret_key: 'your-secret-key'
 ```
 
 **Verify vault configuration:**
+
 ```bash
 ansible-vault view playbooks/group_vars/all/vault.yml
 ```
@@ -669,6 +714,7 @@ ansible-playbook playbooks/setup-core-config.yaml \
 ```
 
 **What this does:**
+
 - Installs core utilities (curl, wget, git, build-essential)
 - Configures shell (zsh/fish)
 - Sets up locales (en_US.UTF-8)
@@ -686,6 +732,7 @@ ansible-playbook playbooks/setup-ssh-key.yaml \
 ```
 
 **What this does:**
+
 - Copies SSH keys to server
 - Configures git SSH authentication
 - Sets proper permissions
@@ -700,6 +747,7 @@ ansible-playbook playbooks/setup-docker.yaml \
 ```
 
 **What this does:**
+
 - Adds Docker APT repository
 - Installs docker-ce, docker-ce-cli, containerd.io
 - Installs docker-compose-plugin, docker-buildx-plugin
@@ -707,6 +755,7 @@ ansible-playbook playbooks/setup-docker.yaml \
 - Starts Docker service
 
 **Verify Docker installation:**
+
 ```bash
 ssh dhp@caremate-server docker --version
 # Expected: Docker version 24.x.x
@@ -724,11 +773,13 @@ ansible-playbook playbooks/setup-nodejs.yaml \
 ```
 
 **What this does:**
+
 - Adds NodeSource APT repository
 - Installs Node.js 22.x
 - Installs Yarn globally via npm
 
 **Verify Node.js installation:**
+
 ```bash
 ssh dhp@caremate-server "node --version && npm --version && yarn --version"
 # Expected:
@@ -747,12 +798,14 @@ ansible-playbook playbooks/setup-caremate-project.yaml --verbose
 ```
 
 **What this does:**
+
 - Clones `nguyen2v/caremate` repository to `/home/dhp/caremate-server`
 - Creates `.env` file from template
 - Creates `~/.caremate-config/caremate.config.json`
 - Sets up project directory structure
 
 **Verify project setup:**
+
 ```bash
 ssh dhp@caremate-server "ls -la caremate-server/"
 ```
@@ -774,6 +827,7 @@ ansible-playbook playbooks/setup-nginx.yaml \
 ```
 
 **What this does:**
+
 - Installs Nginx
 - Creates Nginx configuration for HTTP
 - Starts Nginx service
@@ -791,16 +845,19 @@ ansible-playbook playbooks/setup-nginx.yaml \
 ```
 
 **What this does:**
+
 - Installs Certbot
 - Requests SSL certificate from Let's Encrypt
 - Configures Nginx for HTTPS
 - Sets up automatic renewal
 
 **Prerequisites:**
+
 - DNS must be properly configured and propagated
 - Port 80 must be accessible from the internet
 
 **Verify certificate:**
+
 ```bash
 ssh dhp@caremate-server "sudo certbot certificates"
 ```
@@ -822,6 +879,7 @@ ansible-playbook playbooks/deploy-caremate-server.yaml --verbose
 ```
 
 **What this does:**
+
 1. Updates `.env` and `caremate.config.json`
 2. Gets current Git SHA
 3. Checks if Docker image exists
@@ -834,11 +892,13 @@ ansible-playbook playbooks/deploy-caremate-server.yaml --verbose
 **Expected duration:** 10-15 minutes (first build)
 
 **Verify deployment:**
+
 ```bash
 ssh dhp@caremate-server "docker ps"
 ```
 
 Expected containers:
+
 - `postgres`
 - `redis`
 - `caremate-server`
@@ -846,21 +906,25 @@ Expected containers:
 #### Step 28: Deploy Additional Services
 
 **Deploy AI Scribe:**
+
 ```bash
 ansible-playbook playbooks/deploy-ai-scribe.yaml --verbose
 ```
 
 **Deploy Care Assistant:**
+
 ```bash
 ansible-playbook playbooks/deploy-care-assistant.yaml --verbose
 ```
 
 **Deploy Caremate MCP:**
+
 ```bash
 ansible-playbook playbooks/deploy-caremate-mcp.yaml --verbose
 ```
 
 **Deploy C-Engine API:**
+
 ```bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
   --extra-vars='{ "service_name": "cengine-api" }' \
@@ -868,11 +932,13 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 ```
 
 **Seed C-Engine Database:**
+
 ```bash
 ansible-playbook playbooks/seed-cengine-api.yaml --verbose
 ```
 
 **Deploy Mental Care:**
+
 ```bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
   --extra-vars='{ "service_name": "mental-care" }' \
@@ -880,6 +946,7 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 ```
 
 **Each deployment does:**
+
 1. Clones/updates service repository
 2. Adds service block to `docker-compose.yml`
 3. Builds Docker image
@@ -922,6 +989,7 @@ ansible-playbook playbooks/configure-jitsi-docker-stack.yaml --verbose
 ```
 
 **What this sets up:**
+
 - Prosody (XMPP server)
 - JVB (Video bridge)
 - Jicofo (Conference focus)
@@ -937,11 +1005,13 @@ ansible-playbook playbooks/configure-jitsi-docker-stack.yaml --verbose
 #### Step 31: Verify All Services
 
 **Check Docker containers:**
+
 ```bash
 ssh dhp@caremate-server "docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'"
 ```
 
 **Expected output:**
+
 ```
 NAMES              STATUS          PORTS
 nginx              Up 10 minutes   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp
@@ -957,6 +1027,7 @@ chroma-server      Up 10 minutes   0.0.0.0:8001->8000/tcp
 ```
 
 **Test API endpoints:**
+
 ```bash
 # Test caremate-server (via Nginx)
 curl https://api.fpt-healthcare.com/healthcheck
@@ -966,6 +1037,7 @@ curl https://api.fpt-healthcare.com/neo4j/
 ```
 
 **Check service logs:**
+
 ```bash
 ssh dhp@caremate-server "docker compose -f caremate-server/docker-compose.yml logs --tail 50 caremate-server"
 ```
@@ -1124,6 +1196,7 @@ docker compose up -d --build
 #### Viewing Logs
 
 **Docker Compose logs:**
+
 ```bash
 # View all logs
 docker compose logs
@@ -1147,6 +1220,7 @@ docker compose logs --timestamps nginx
 ```
 
 **Docker logs:**
+
 ```bash
 # View container logs
 docker logs <container-name>
@@ -1164,6 +1238,7 @@ docker logs --since 2024-01-01T00:00:00 <container-name>
 #### Log Locations
 
 **Service logs:**
+
 - **caremate-server:** `docker compose logs caremate-server`
 - **cengine-api:** `docker compose logs cengine-api`
 - **PostgreSQL:** `docker compose logs postgres`
@@ -1172,6 +1247,7 @@ docker logs --since 2024-01-01T00:00:00 <container-name>
 - **Neo4j:** `docker compose logs neo4j`
 
 **System logs (on server):**
+
 ```bash
 # System journal
 sudo journalctl -u docker
@@ -1188,10 +1264,12 @@ sudo tail -f /var/log/nginx/error.log
 #### Issue 1: Service Won't Start
 
 **Symptoms:**
+
 - Container exits immediately after starting
 - `docker compose ps` shows `Exit 1` or `Exit 137`
 
 **Debugging steps:**
+
 ```bash
 # Check logs
 docker compose logs <service-name>
@@ -1207,12 +1285,14 @@ docker compose config
 ```
 
 **Common causes:**
+
 - Missing environment variables
 - Database connection failure
 - Port already in use
 - Out of memory
 
 **Solutions:**
+
 ```bash
 # Verify environment file exists
 ls -la .env
@@ -1231,10 +1311,12 @@ sudo systemctl restart docker
 #### Issue 2: Database Connection Failed
 
 **Symptoms:**
+
 - Services log "Connection refused" or "Connection timeout"
 - PostgreSQL/Neo4j/Redis not reachable
 
 **Debugging steps:**
+
 ```bash
 # Check if database containers are running
 docker compose ps postgres redis neo4j
@@ -1258,11 +1340,13 @@ curl http://localhost:7474
 ```
 
 **Common causes:**
+
 - Database container not running
 - Incorrect credentials
 - Database not initialized
 
 **Solutions:**
+
 ```bash
 # Restart database containers
 docker compose restart postgres redis neo4j
@@ -1279,10 +1363,12 @@ docker compose logs -f postgres
 #### Issue 3: Nginx 502 Bad Gateway
 
 **Symptoms:**
+
 - API requests return 502 error
 - Nginx error log shows "connect() failed"
 
 **Debugging steps:**
+
 ```bash
 # Check Nginx logs
 docker compose logs nginx | grep error
@@ -1302,11 +1388,13 @@ docker compose exec nginx nginx -s reload
 ```
 
 **Common causes:**
+
 - Backend service not running
 - Backend service crashed
 - Incorrect proxy configuration
 
 **Solutions:**
+
 ```bash
 # Restart backend service
 docker compose restart caremate-server
@@ -1321,10 +1409,12 @@ docker compose restart nginx
 #### Issue 4: SSL Certificate Issues
 
 **Symptoms:**
+
 - Browser shows "Certificate expired"
 - `curl` fails with SSL error
 
 **Debugging steps:**
+
 ```bash
 # Check certificate expiration
 ssh dhp@caremate-server "sudo certbot certificates"
@@ -1337,6 +1427,7 @@ ssh dhp@caremate-server "sudo cat /etc/nginx/sites-enabled/default | grep ssl"
 ```
 
 **Solutions:**
+
 ```bash
 # Renew certificate manually
 ssh dhp@caremate-server "sudo certbot renew"
@@ -1351,11 +1442,13 @@ ssh dhp@caremate-server "docker compose restart nginx"
 #### Issue 5: Out of Disk Space
 
 **Symptoms:**
+
 - Deployments fail
 - Docker build fails
 - Logs show "no space left on device"
 
 **Debugging steps:**
+
 ```bash
 # Check disk usage
 ssh dhp@caremate-server "df -h"
@@ -1368,6 +1461,7 @@ ssh dhp@caremate-server "du -h / | sort -rh | head -20"
 ```
 
 **Solutions:**
+
 ```bash
 # Clean up Docker
 ssh dhp@caremate-server "docker system prune -a"
@@ -1385,11 +1479,13 @@ ssh dhp@caremate-server "sudo journalctl --vacuum-time=7d"
 #### Issue 6: High Memory Usage
 
 **Symptoms:**
+
 - Server becomes slow
 - OOM (Out of Memory) errors in logs
 - Containers being killed
 
 **Debugging steps:**
+
 ```bash
 # Check memory usage
 ssh dhp@caremate-server "free -h"
@@ -1402,6 +1498,7 @@ ssh dhp@caremate-server "ps aux --sort=-%mem | head -20"
 ```
 
 **Solutions:**
+
 ```bash
 # Restart high-memory containers
 docker compose restart <service-name>
@@ -1420,16 +1517,19 @@ sudo systemctl restart docker
 #### Caremate Server (Node.js)
 
 **Check logs:**
+
 ```bash
 docker compose logs -f caremate-server
 ```
 
 **Access container shell:**
+
 ```bash
 docker compose exec caremate-server /bin/bash
 ```
 
 **Common debugging commands:**
+
 ```bash
 # Check Node.js version
 node --version
@@ -1445,6 +1545,7 @@ node -e "console.log(process.env.POSTGRES_USER)"
 ```
 
 **Debug TypeScript build issues:**
+
 ```bash
 # SSH into server
 ssh dhp@caremate-server
@@ -1460,16 +1561,19 @@ npx tsc --noEmit
 #### C-Engine API (Python/FastAPI)
 
 **Check logs:**
+
 ```bash
 docker compose logs -f cengine-api
 ```
 
 **Access container shell:**
+
 ```bash
 docker compose exec cengine-api /bin/bash
 ```
 
 **Common debugging commands:**
+
 ```bash
 # Check Python version
 python --version
@@ -1488,6 +1592,7 @@ poetry run python scripts/insert_sample_data.py
 ```
 
 **Debug API issues:**
+
 ```bash
 # Test API locally
 curl http://localhost:8003/docs  # FastAPI docs
@@ -1499,12 +1604,14 @@ docker compose logs cengine-api | grep uvicorn
 #### PostgreSQL Database
 
 **Access database:**
+
 ```bash
 # Connect to PostgreSQL
 docker exec -it postgres psql -U medplum -d medplum
 ```
 
 **Common SQL commands:**
+
 ```sql
 -- List databases
 \l
@@ -1529,6 +1636,7 @@ SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle';
 ```
 
 **Backup database:**
+
 ```bash
 # Backup specific database
 docker exec postgres pg_dump -U medplum medplum > medplum_backup.sql
@@ -1540,17 +1648,20 @@ cat medplum_backup.sql | docker exec -i postgres psql -U medplum -d medplum
 #### Neo4j Graph Database
 
 **Access Neo4j browser:**
+
 - URL: `https://api.fpt-healthcare.com/neo4j/`
 - Username: `neo4j`
 - Password: (from vault)
 
 **Access Neo4j shell:**
+
 ```bash
 # Cypher shell
 docker exec -it neo4j cypher-shell -u neo4j -p <password>
 ```
 
 **Common Cypher commands:**
+
 ```cypher
 // Show all node labels
 CALL db.labels();
@@ -1568,11 +1679,13 @@ MATCH (n) DETACH DELETE n;
 #### Redis Cache
 
 **Access Redis CLI:**
+
 ```bash
 docker exec -it redis redis-cli
 ```
 
 **Common Redis commands:**
+
 ```redis
 # Ping
 PING
@@ -1647,23 +1760,27 @@ traceroute api.fpt-healthcare.com
 ### Working with Caremate Server (Main Backend)
 
 #### Repository Location
+
 - **GitHub:** `nguyen2v/caremate`
 - **Server Path:** `/home/dhp/caremate-server`
 
 #### Development Workflow
 
 **1. SSH into server:**
+
 ```bash
 ssh dhp@caremate-server
 cd caremate-server
 ```
 
 **2. Create feature branch:**
+
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
 **3. Make code changes:**
+
 ```bash
 # Edit files using vim/nano
 vim src/path/to/file.ts
@@ -1674,6 +1791,7 @@ vim src/path/to/file.ts
 ```
 
 **4. Install dependencies (if added):**
+
 ```bash
 npm install <package-name>
 
@@ -1682,6 +1800,7 @@ npm install --save-dev <package-name>
 ```
 
 **5. Build the project:**
+
 ```bash
 # Fast build (skips tests)
 npm run build:fast
@@ -1691,6 +1810,7 @@ npm run build
 ```
 
 **6. Rebuild Docker image:**
+
 ```bash
 # Get current Git SHA
 export GITHUB_SHA=$(git rev-parse --short HEAD)
@@ -1703,6 +1823,7 @@ ansible-playbook /path/to/caremate-devops/playbooks/deploy-caremate-server.yaml 
 ```
 
 **7. Test changes:**
+
 ```bash
 # Restart service
 docker compose restart caremate-server
@@ -1715,6 +1836,7 @@ curl http://localhost:8103/healthcheck
 ```
 
 **8. Commit and push:**
+
 ```bash
 git add .
 git commit -m "feat: add new feature"
@@ -1726,6 +1848,7 @@ git push origin feature/your-feature-name
 **Example: Adding `/api/v1/patients/summary`**
 
 **1. Create route handler (`src/routes/patients.ts`):**
+
 ```typescript
 import { Router } from 'express';
 
@@ -1745,6 +1868,7 @@ export default router;
 ```
 
 **2. Register route (`src/index.ts`):**
+
 ```typescript
 import patientsRouter from './routes/patients';
 
@@ -1752,6 +1876,7 @@ app.use('/api/v1/patients', patientsRouter);
 ```
 
 **3. Update Nginx configuration (if needed):**
+
 ```bash
 # Edit Nginx config template
 vim /path/to/caremate-devops/playbooks/roles/nginx-docker-helper/templates/nginx.conf.j2
@@ -1765,6 +1890,7 @@ location /api/v1/patients {
 ```
 
 **4. Rebuild and deploy:**
+
 ```bash
 npm run build:fast
 ./scripts/build-docker-server.sh
@@ -1776,6 +1902,7 @@ docker compose up -d caremate-server
 **Using Medplum FHIR resources:**
 
 **1. Define new resource type:**
+
 ```typescript
 // src/fhir/resources/CustomResource.ts
 import { Resource } from '@medplum/fhirtypes';
@@ -1788,6 +1915,7 @@ export interface CustomResource extends Resource {
 ```
 
 **2. Update database migrations (if using raw SQL):**
+
 ```sql
 -- migrations/001_add_custom_table.sql
 CREATE TABLE custom_table (
@@ -1799,6 +1927,7 @@ CREATE TABLE custom_table (
 ```
 
 **3. Run migration:**
+
 ```bash
 # SSH into server
 ssh dhp@caremate-server
@@ -1815,18 +1944,21 @@ docker exec -it postgres psql -U medplum -d medplum
 ### Working with C-Engine API (Python/FastAPI)
 
 #### Repository Location
+
 - **GitHub:** `nguyen2v/cengine-api`
 - **Server Path:** `/home/dhp/cengine-api`
 
 #### Development Workflow
 
 **1. SSH into server:**
+
 ```bash
 ssh dhp@caremate-server
 cd cengine-api
 ```
 
 **2. Create virtual environment (local development):**
+
 ```bash
 # Install Poetry
 curl -sSL https://install.python-poetry.org | python3 -
@@ -1836,11 +1968,13 @@ poetry install
 ```
 
 **3. Make code changes:**
+
 ```bash
 vim app/routers/your_router.py
 ```
 
 **4. Add new dependencies:**
+
 ```bash
 # Add package
 poetry add <package-name>
@@ -1850,6 +1984,7 @@ poetry add --group dev <package-name>
 ```
 
 **5. Create database migration:**
+
 ```bash
 # Generate migration
 poetry run alembic revision --autogenerate -m "Add new table"
@@ -1862,12 +1997,14 @@ poetry run alembic upgrade head
 ```
 
 **6. Test locally:**
+
 ```bash
 # Run FastAPI dev server
 poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 **7. Rebuild Docker image:**
+
 ```bash
 # Build image
 docker compose build cengine-api
@@ -1884,6 +2021,7 @@ docker compose logs -f cengine-api
 **Example: Adding `/api/v1/reports`**
 
 **1. Create router (`app/routers/reports.py`):**
+
 ```python
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -1903,6 +2041,7 @@ async def create_report(data: dict, db: Session = Depends(get_db)):
 ```
 
 **2. Register router (`app/main.py`):**
+
 ```python
 from app.routers import reports
 
@@ -1910,6 +2049,7 @@ app.include_router(reports.router)
 ```
 
 **3. Create database model (`app/models/report.py`):**
+
 ```python
 from sqlalchemy import Column, Integer, String, DateTime
 from app.database import Base
@@ -1924,12 +2064,14 @@ class Report(Base):
 ```
 
 **4. Create migration:**
+
 ```bash
 poetry run alembic revision --autogenerate -m "Add reports table"
 poetry run alembic upgrade head
 ```
 
 **5. Deploy:**
+
 ```bash
 docker compose build cengine-api
 docker compose up -d cengine-api
@@ -1940,22 +2082,26 @@ docker compose up -d cengine-api
 ### Working with Care Assistant (Python)
 
 #### Repository Location
+
 - **Bitbucket:** `health-solution/caremate-assistant`
 - **Server Path:** `/home/dhp/caremate-assistant`
 
 #### Sub-Services
+
 - **ai-scribe:** FastAPI service (port 8000)
 - **care-assistant:** Python service (port 3002)
 
 #### Development Workflow
 
 **1. SSH and navigate:**
+
 ```bash
 ssh dhp@caremate-server
 cd caremate-assistant
 ```
 
 **2. Modify code:**
+
 ```bash
 # For ai-scribe
 vim ai-scribe/app/main.py
@@ -1965,6 +2111,7 @@ vim care-assistant/src/assistant.py
 ```
 
 **3. Rebuild specific service:**
+
 ```bash
 # Rebuild ai-scribe
 docker compose build ai-scribe
@@ -1976,6 +2123,7 @@ docker compose up -d care-assistant
 ```
 
 **4. Deploy via Ansible:**
+
 ```bash
 # From your local machine
 ansible-playbook playbooks/deploy-ai-scribe.yaml --verbose
@@ -1989,6 +2137,7 @@ ansible-playbook playbooks/deploy-care-assistant.yaml --verbose
 #### Example: Adding a new "Patient Portal" service
 
 **1. Create repository:**
+
 ```bash
 # Create new repository on GitHub/Bitbucket
 # Clone it locally
@@ -1996,6 +2145,7 @@ git clone git@github.com:nguyen2v/patient-portal.git
 ```
 
 **2. Create Dockerfile:**
+
 ```dockerfile
 # patient-portal/Dockerfile
 FROM python:3.11-slim
@@ -2011,6 +2161,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 **3. Create Ansible playbook:**
+
 ```yaml
 # playbooks/deploy-patient-portal.yaml
 ---
@@ -2028,6 +2179,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 **4. Create service template:**
+
 ```yaml
 # playbooks/roles/caremate-sub-project-builder/templates/patient-portal-service-block.j2
   patient-portal:
@@ -2048,11 +2200,13 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 **5. Deploy new service:**
+
 ```bash
 ansible-playbook playbooks/deploy-patient-portal.yaml --verbose
 ```
 
 **6. Add Nginx route:**
+
 ```nginx
 # Add to nginx.conf.j2
 location /patient-portal {
@@ -2063,6 +2217,7 @@ location /patient-portal {
 ```
 
 **7. Redeploy Nginx:**
+
 ```bash
 ansible-playbook playbooks/setup-nginx.yaml --verbose
 ```
@@ -2074,6 +2229,7 @@ ansible-playbook playbooks/setup-nginx.yaml --verbose
 #### Understanding Playbook Structure
 
 **Typical playbook:**
+
 ```yaml
 ---
 - name: Deploy service
@@ -2088,6 +2244,7 @@ ansible-playbook playbooks/setup-nginx.yaml --verbose
 ```
 
 **Key components:**
+
 - **hosts:** Target servers (from inventory.ini)
 - **roles:** Reusable task collections
 - **vars:** Variables passed to roles
@@ -2095,12 +2252,14 @@ ansible-playbook playbooks/setup-nginx.yaml --verbose
 #### Adding New Role
 
 **1. Create role directory:**
+
 ```bash
 mkdir -p playbooks/roles/my-new-role/tasks
 mkdir -p playbooks/roles/my-new-role/templates
 ```
 
 **2. Create tasks file:**
+
 ```yaml
 # playbooks/roles/my-new-role/tasks/main.yaml
 ---
@@ -2116,14 +2275,16 @@ mkdir -p playbooks/roles/my-new-role/templates
 ```
 
 **3. Create template:**
+
 ```yaml
 # playbooks/roles/my-new-role/templates/config.j2
 # Configuration file
-setting1: {{ variable1 }}
-setting2: {{ variable2 }}
+setting1: { { variable1 } }
+setting2: { { variable2 } }
 ```
 
 **4. Use role in playbook:**
+
 ```yaml
 # playbooks/my-playbook.yaml
 ---
@@ -2131,11 +2292,12 @@ setting2: {{ variable2 }}
   hosts: caremate-server
   roles:
     - role: my-new-role
-      variable1: "value1"
-      variable2: "value2"
+      variable1: 'value1'
+      variable2: 'value2'
 ```
 
 **5. Run playbook:**
+
 ```bash
 ansible-playbook playbooks/my-playbook.yaml --verbose
 ```
@@ -2147,6 +2309,7 @@ ansible-playbook playbooks/my-playbook.yaml --verbose
 #### Adding New Compute Instance
 
 **1. Edit servers.tf:**
+
 ```hcl
 # beaming-key-466311-v1/servers.tf
 
@@ -2165,6 +2328,7 @@ module "new_server" {
 ```
 
 **2. Add firewall rules:**
+
 ```hcl
 # modules/fhs-instance-ubuntu/firewall.tf
 
@@ -2183,6 +2347,7 @@ resource "google_compute_firewall" "new_server_allow_http" {
 ```
 
 **3. Plan and apply:**
+
 ```bash
 terraform -chdir=beaming-key-466311-v1 plan
 terraform -chdir=beaming-key-466311-v1 apply
@@ -2191,6 +2356,7 @@ terraform -chdir=beaming-key-466311-v1 apply
 #### Changing Machine Type
 
 **1. Edit locals.tf:**
+
 ```hcl
 # beaming-key-466311-v1/locals.tf
 
@@ -2200,6 +2366,7 @@ locals {
 ```
 
 **2. Apply changes:**
+
 ```bash
 terraform -chdir=beaming-key-466311-v1 plan
 terraform -chdir=beaming-key-466311-v1 apply
@@ -2216,21 +2383,25 @@ terraform -chdir=beaming-key-466311-v1 apply
 #### Using Ansible Vault
 
 **Encrypt file:**
+
 ```bash
 ansible-vault encrypt playbooks/group_vars/all/vault.yml
 ```
 
 **Edit encrypted file:**
+
 ```bash
 ansible-vault edit playbooks/group_vars/all/vault.yml
 ```
 
 **View encrypted file:**
+
 ```bash
 ansible-vault view playbooks/group_vars/all/vault.yml
 ```
 
 **Change vault password:**
+
 ```bash
 ansible-vault rekey playbooks/group_vars/all/vault.yml
 ```
@@ -2238,6 +2409,7 @@ ansible-vault rekey playbooks/group_vars/all/vault.yml
 #### Environment Variables
 
 **Never commit these files:**
+
 - `.env`
 - `caremate.config.json`
 - `vault.yml` (always keep encrypted)
@@ -2245,6 +2417,7 @@ ansible-vault rekey playbooks/group_vars/all/vault.yml
 - Service account JSON files
 
 **Verify .gitignore:**
+
 ```bash
 cat .gitignore | grep -E ".env|vault|key"
 ```
@@ -2254,11 +2427,13 @@ cat .gitignore | grep -E ".env|vault|key"
 #### GCP Firewall Rules
 
 **View current rules:**
+
 ```bash
 gcloud compute firewall-rules list
 ```
 
 **Add new rule:**
+
 ```bash
 gcloud compute firewall-rules create allow-custom-port \
   --allow tcp:9000 \
@@ -2267,6 +2442,7 @@ gcloud compute firewall-rules create allow-custom-port \
 ```
 
 **Delete rule:**
+
 ```bash
 gcloud compute firewall-rules delete allow-custom-port
 ```
@@ -2291,18 +2467,21 @@ sudo ufw status
 ### SSL/TLS Certificate Renewal
 
 **Automatic renewal:**
+
 ```bash
 # Certbot sets up automatic renewal via cron/systemd timer
 sudo certbot renew --dry-run
 ```
 
 **Manual renewal:**
+
 ```bash
 sudo certbot renew
 sudo systemctl reload nginx
 ```
 
 **Check certificate expiration:**
+
 ```bash
 sudo certbot certificates
 ```
@@ -2312,6 +2491,7 @@ sudo certbot certificates
 #### Database Backups
 
 **PostgreSQL backup:**
+
 ```bash
 # Manual backup
 docker exec postgres pg_dumpall -U medplum > /backup/postgres_$(date +%Y%m%d).sql
@@ -2333,6 +2513,7 @@ crontab -e
 ```
 
 **Neo4j backup:**
+
 ```bash
 docker exec neo4j neo4j-admin dump --to=/backup/neo4j_$(date +%Y%m%d).dump
 ```
@@ -2340,17 +2521,20 @@ docker exec neo4j neo4j-admin dump --to=/backup/neo4j_$(date +%Y%m%d).dump
 #### VM Snapshots
 
 **Create snapshot:**
+
 ```bash
 ./scripts/create-snapshot.sh caremate-server
 ./scripts/create-snapshot.sh jitsi-server
 ```
 
 **List snapshots:**
+
 ```bash
 gcloud compute snapshots list
 ```
 
 **Restore from snapshot:**
+
 ```bash
 # Create new disk from snapshot
 gcloud compute disks create restored-disk \
@@ -2368,6 +2552,7 @@ gcloud compute instances create restored-instance \
 #### Resource Monitoring
 
 **Check server resources:**
+
 ```bash
 # CPU, Memory, Disk
 ssh dhp@caremate-server "htop"
@@ -2382,6 +2567,7 @@ ssh dhp@caremate-server "df -h"
 #### Log Monitoring
 
 **Centralized logging (optional):**
+
 ```bash
 # Install Loki or ELK stack for centralized logging
 # Or use GCP Cloud Logging
@@ -2419,6 +2605,7 @@ docker scan caremate-server:latest
 #### Database Security
 
 **PostgreSQL:**
+
 ```sql
 -- Create read-only user
 CREATE USER readonly WITH PASSWORD 'password';
@@ -2534,6 +2721,7 @@ docker compose up -d caremate-server
 ### Important File Locations
 
 #### On Local Machine
+
 - **Terraform:** `/home/user/caremate-devops/beaming-key-466311-v1/`
 - **Ansible Playbooks:** `/home/user/caremate-devops/playbooks/`
 - **Ansible Roles:** `/home/user/caremate-devops/playbooks/roles/`
@@ -2541,6 +2729,7 @@ docker compose up -d caremate-server
 - **Scripts:** `/home/user/caremate-devops/scripts/`
 
 #### On Caremate Server
+
 - **Project Root:** `/home/dhp/caremate-server/`
 - **Environment File:** `/home/dhp/caremate-server/.env`
 - **Config File:** `/home/dhp/.caremate-config/caremate.config.json`
@@ -2553,27 +2742,28 @@ docker compose up -d caremate-server
 
 ### Port Reference
 
-| Service | Internal Port | External Port | Protocol |
-|---------|--------------|---------------|----------|
-| PostgreSQL | 5432 | 5432 | TCP |
-| Redis | 6379 | 6379 | TCP |
-| Neo4j HTTP | 7474 | 7474 | TCP |
-| Neo4j Bolt | 7687 | 7687 | TCP |
-| Nginx HTTP | 80 | 80 | TCP |
-| Nginx HTTPS | 443 | 443 | TCP |
-| caremate-server | 8103 | 8103 | TCP |
-| cengine-api | 8000 | 8003 | TCP |
-| care-assistant | 3002 | 3002 | TCP |
-| ai-scribe | 8000 | 8000 | TCP |
-| mental-care | 8000 | 8004 | TCP |
-| chroma-server | 8000 | 8001 | TCP |
-| Jitsi XMPP | 5222 | 5222 | TCP |
-| Jitsi TURN | 5349 | 5349 | TCP |
-| Jitsi JVB | 10000 | 10000 | UDP |
+| Service         | Internal Port | External Port | Protocol |
+| --------------- | ------------- | ------------- | -------- |
+| PostgreSQL      | 5432          | 5432          | TCP      |
+| Redis           | 6379          | 6379          | TCP      |
+| Neo4j HTTP      | 7474          | 7474          | TCP      |
+| Neo4j Bolt      | 7687          | 7687          | TCP      |
+| Nginx HTTP      | 80            | 80            | TCP      |
+| Nginx HTTPS     | 443           | 443           | TCP      |
+| caremate-server | 8103          | 8103          | TCP      |
+| cengine-api     | 8000          | 8003          | TCP      |
+| care-assistant  | 3002          | 3002          | TCP      |
+| ai-scribe       | 8000          | 8000          | TCP      |
+| mental-care     | 8000          | 8004          | TCP      |
+| chroma-server   | 8000          | 8001          | TCP      |
+| Jitsi XMPP      | 5222          | 5222          | TCP      |
+| Jitsi TURN      | 5349          | 5349          | TCP      |
+| Jitsi JVB       | 10000         | 10000         | UDP      |
 
 ### Useful Commands Cheat Sheet
 
 #### Ansible
+
 ```bash
 # Run playbook
 ansible-playbook playbooks/<playbook>.yaml --verbose
@@ -2592,6 +2782,7 @@ ansible-playbook playbooks/<playbook>.yaml --check
 ```
 
 #### Docker Compose
+
 ```bash
 # Start services
 docker compose up -d
@@ -2619,6 +2810,7 @@ docker compose config
 ```
 
 #### Git
+
 ```bash
 # Clone repository
 git clone <repo-url>
@@ -2641,6 +2833,7 @@ git log --oneline
 ```
 
 #### GCloud
+
 ```bash
 # List instances
 gcloud compute instances list
@@ -2683,6 +2876,7 @@ CHROMA_API_KEY=<from-vault>
 ### Support & Documentation
 
 #### Official Documentation
+
 - **Terraform:** https://www.terraform.io/docs
 - **Ansible:** https://docs.ansible.com
 - **Docker:** https://docs.docker.com
@@ -2690,6 +2884,7 @@ CHROMA_API_KEY=<from-vault>
 - **GCP:** https://cloud.google.com/docs
 
 #### Project Documentation
+
 - Main README: `/docs/README.org`
 - Setup Google Cloud: `/docs/setup-google-cloud.org`
 - Setup Infrastructure: `/docs/setup-infrastructure.org`
