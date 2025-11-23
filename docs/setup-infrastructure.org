@@ -9,7 +9,7 @@
 * Setup PROJECT_ID
 #+name: PROJECT_ID
 #+begin_src bash
-beaming-key-466311-v1
+peaceful-fact-478904-h8
 #+end_src
 
 * Terraform Init
@@ -31,7 +31,7 @@ terraform -chdir=<<PROJECT_ID>> apply -auto-approve
 ** Setup SERVICE_ACCOUNT
 #+name: SERVICE_ACCOUNT
 #+begin_src bash
-service-336386979681@compute-system.iam.gserviceaccount.com
+230565607374-compute@developer.gserviceaccount.com
 #+end_src
 
 ** Run script
@@ -43,14 +43,22 @@ gcloud projects add-iam-policy-binding <<PROJECT_ID>> \
 
 * Create snapshots
 ** Cleanup docker build
-- SSH into =dhp-server= and =jitsi-server= then clean up docker build
+- SSH into =caremate-server= and =jitsi-server= then clean up docker build
+#+begin_src bash :comint
+ssh dhp@jitsi-server
+#+end_src
+
+- Clean up docker images
 #+begin_src bash
 docker system prune
 #+end_src
 
 ** Run Create snapshot script
 #+begin_src bash
-./scripts/create-snapshot.sh dhp-server
+./scripts/create-snapshot.sh caremate-server
+#+end_src
+
+#+begin_src bash
 ./scripts/create-snapshot.sh jitsi-server
 #+end_src
 

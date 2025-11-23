@@ -7,7 +7,7 @@ resource "google_compute_address" "this" {
 resource "google_compute_disk" "this" {
   name     = "${var.server_name}-disk"
   size     = var.disk_size
-  image    = var.image
+  image    = var.snapshot != "" ? "" : var.image
   snapshot = var.snapshot
   zone     = var.zone
 }
