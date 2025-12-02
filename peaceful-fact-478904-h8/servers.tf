@@ -3,7 +3,7 @@ locals {
     "caremate-server" = {
       address      = "34.124.210.203"
       machine_type = local.machine_type.e2_standard_2
-      snapshot     = "projects/beaming-key-466311-v1/global/snapshots/caremate-server-2025-11-21"
+      snapshot     = "projects/${local.project_id}/global/snapshots/caremate-server-${local.snapshot_date}"
       region       = local.region_southeast1
       status       = local.running
       tcp_ports    = ["5432", "7474", "7687"]
@@ -23,7 +23,7 @@ locals {
     "jitsi-server" = {
       address      = "35.240.162.220"
       machine_type = local.machine_type.e2_medium
-      snapshot     = "projects/beaming-key-466311-v1/global/snapshots/jitsi-server-2025-11-21"
+      snapshot     = "projects/${local.project_id}/global/snapshots/jitsi-server-${local.snapshot_date}"
       region       = local.region_southeast1
       status       = local.running
       tcp_ports    = ["5222", "5349"]

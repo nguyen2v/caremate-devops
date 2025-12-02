@@ -26,7 +26,7 @@ locals {
   us_region = "us-central1"
   us_zone   = "us-central1-c"
 
-  snapshot_date = "2025-11-21"
+  snapshot_date = "2025-11-23"
 
   primary_email   = "louis.llg.hc@gmail.com"
   secondary_email = "eventsteve@gmail.com"

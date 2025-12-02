@@ -45,7 +45,7 @@ gcloud projects add-iam-policy-binding <<PROJECT_ID>> \
 ** Cleanup docker build
 - SSH into =caremate-server= and =jitsi-server= then clean up docker build
 #+begin_src bash :comint
-ssh dhp@jitsi-server
+ssh dhp@caremate-server
 #+end_src
 
 - Clean up docker images
