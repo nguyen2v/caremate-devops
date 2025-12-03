@@ -121,9 +121,18 @@ caremate-server% ll ~/.caremate-config/caremate.config.json
 ansible-playbook playbooks/setup-nginx.yaml --verbose
 #+end_src
 
+* Deploy ads-api
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "caremate-agent", "sub_project": "ads-api" }' \
+  --verbose
+#+end_src
+
 * Deploy ai-scribe
 #+begin_src bash
-ansible-playbook playbooks/deploy-ai-scribe.yaml --verbose
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "caremate-agent", "sub_project": "ai-scribe" }' \
+  --verbose
 #+end_src
 
 * Deploy caremate-agent
@@ -135,7 +144,9 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 
 * Deploy caremate-assistant
 #+begin_src bash
-ansible-playbook playbooks/deploy-care-assistant.yaml --verbose
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "caremate-agent", "sub_project": "care-assistant" }' \
+  --verbose
 #+end_src
 
 * Deploy caremate-mcp
