@@ -1,4 +1,6 @@
 {% if ssl_enabled %}
+client_max_body_size 10M;
+
 upstream server {
   server server:8103;
 }
