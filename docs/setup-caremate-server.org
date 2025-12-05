@@ -88,6 +88,7 @@ ansible-playbook playbooks/setup-nginx.yaml \
 | care-assistant  |                            3002:3002 |
 | cengine-api     |                            8003:8000 |
 | mental-care     |                            8004:8000 |
+| doc-cat-api     |                            8005:8000 |
 
 * Deploy caremate-server
 ** Update env
@@ -117,6 +118,7 @@ caremate-server% ll ~/.caremate-config/caremate.config.json
 #+end_src
 
 * Deploy nginx
+- Run command below to update nginx.conf and deploy
 #+begin_src bash
 ansible-playbook playbooks/setup-nginx.yaml --verbose
 #+end_src
@@ -165,6 +167,13 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 ** Seed data
 #+begin_src bash
 ansible-playbook playbooks/seed-cengine-api.yaml
+#+end_src
+
+* Deploy doc-cat-api
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --extra-vars='{ "service_name": "doc-cat-api" }' \
+  --verbose
 #+end_src
 
 * Deploy mental-care

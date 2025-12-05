@@ -3,11 +3,11 @@
   hosts: caremate-server
   vars:
     service_name: mental-care
-    sub_project: '{{ sub_project | default(service_name) }}'
+    target_sub_project: '{{ sub_project | default(service_name) }}'
   roles:
     - role: git-puller
       repo: 'git@github.com:nguyen2v/{{ service_name }}.git'
       dest: '{{ project_name }}/{{ service_name }}'
 
     - role: caremate-sub-project-builder
-      sub_project_name: '{{ sub_project }}'
+      sub_project_name: '{{ target_sub_project }}'

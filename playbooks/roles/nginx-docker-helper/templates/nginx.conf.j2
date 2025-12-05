@@ -25,6 +25,10 @@ upstream cengine-api {
   server cengine-api:8000;
 }
 
+upstream doc-cat-api {
+  server doc-cat-api:8000;
+}
+
 upstream mental-care {
   server mental-care:8000;
 }
@@ -106,6 +110,10 @@ server {
 
   location /cengine/ {
     proxy_pass http://cengine-api/;
+  }
+
+  location /doc-cat-api/ {
+    proxy_pass http://doc-cat-api/;
   }
 
   location /mental-care/ {

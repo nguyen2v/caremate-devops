@@ -1,0 +1,20 @@
+  {{ sub_project_name }}:
+    image: {{ sub_project_name }}:latest
+    build: ./{{ sub_project_name }}
+    container_name: {{ sub_project_name }}
+    environment:
+      - PROJECT_NANE=Doc-cat-ai
+      - DATA_STEP_TYPE_YAML=data/step_type.yaml
+      - DATA_VECTOR_DATABASE=data/vectordatabase
+      - DATA_FILE=data/file
+      - DATA_SAMPLE_YAML=data/sample.yaml
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OCR_API_URL=https://openapi.humanoid.com.vn/api/v1/ocr/blocks
+    ports:
+      - 8085:8000
+    networks:
+      - caremate-network
+    volumes:
+      - ./{{ sub_project_name }}/data:/app/data
+    restart: unless-stopped
