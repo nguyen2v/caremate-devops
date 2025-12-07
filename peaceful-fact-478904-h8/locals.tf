@@ -1,4 +1,6 @@
 locals {
+  namespace = "caremate"
+
   billing_account = "01D64F-EBFE97-B94167"
   budget          = 2500000
 
@@ -18,8 +20,11 @@ locals {
   project_id        = "peaceful-fact-478904-h8"
   backup_project_id = "beaming-key-466311-v1"
 
+  # primary zone
   region_southeast1 = "asia-southeast1"
   zone_southeast1   = "asia-southeast1-c"
+
+  # secondary zone
   region_southeast2 = "asia-southeast2"
   zone_southeast2   = "asia-southeast2-c"
 

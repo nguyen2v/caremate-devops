@@ -44,10 +44,12 @@ gcloud storage buckets create gs://<<PROJECT_ID>>-state --location=ASIA-SOUTHEAS
 * Enable gcloud services
 #+begin_src bash
 services=(
-  compute.googleapis.com
   billingbudgets.googleapis.com
-  iam.googleapis.com
   cloudresourcemanager.googleapis.com
+  compute.googleapis.com
+  container.googleapis.com
+  containerregistry.googleapis.com
+  iam.googleapis.com
 )
 
 for service in "${services[@]}"; do
