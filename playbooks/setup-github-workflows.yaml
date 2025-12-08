@@ -1,0 +1,9 @@
+---
+- name: Setup Github Workflows
+  hosts: localhost
+  connection: local
+  vars:
+    project_name: doc-cat-api
+  roles:
+    - role: github-workflows-helper
+      project_dir: '/Users/somallg/Code/hls-product/{{ project_name }}'

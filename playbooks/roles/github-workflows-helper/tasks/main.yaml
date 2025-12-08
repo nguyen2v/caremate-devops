@@ -1,0 +1,12 @@
+---
+- name: Ensure workflows folder exists
+  ansible.builtin.file:
+    path: '{{ project_dir }}/.github/workflows'
+    state: directory
+    mode: '0755'
+
+- name: Copy workflows file
+  ansible.builtin.template:
+    src: github-workflows.yaml.j2
+    dest: '{{ project_dir }}/.github/workflows/cicd.yaml'
+    mode: '0644'

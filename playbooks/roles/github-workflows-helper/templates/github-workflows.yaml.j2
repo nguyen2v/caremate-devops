@@ -1,0 +1,74 @@
+{% raw %}
+---
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/cicd.yaml
+      - 'packages/**'
+      - docker-compose.yml
+      - package-lock.json
+      - package.json
+
+concurrency:
+  group: cicd-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  cicd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+
+      - name: Add github.com to known hosts
+        shell: bash
+        run: |
+          ssh-keyscan -H github.com > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Clone caremate-devops
+        shell: bash
+        run: |
+          git clone --depth=1 git@github.com:nguyen2v/caremate-devops.git
+
+      - name: Install Ansible
+        shell: bash
+        run: pip install ansible
+
+      - name: Add caremate-server to /etc/hosts
+        shell: bash
+        run: |
+          echo '34.124.210.203 caremate-server' | sudo tee -a /etc/hosts
+
+      - name: Add caremate-server to known hosts
+        shell: bash
+        run: |
+          ssh-keyscan -H caremate-server >> ~/.ssh/known_hosts
+
+      - name: Setup vault password file
+        env:
+          VAULT_PASS: ${{ secrets.VAULT_PASS }}
+        shell: bash
+        run: |
+          echo "${VAULT_PASS}" > ~/.vault_pass.txt
+
+      - name: Deploy service
+        shell: bash
+        run: |
+          ansible-playbook playbooks/deploy-caremate-service.yaml \
+            --extra-vars='{ "service_name": "project_name" }' \
+            --verbose
+        working-directory: caremate-devops
+{% endraw %}
