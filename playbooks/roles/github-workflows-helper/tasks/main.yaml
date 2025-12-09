@@ -10,3 +10,13 @@
     src: github-workflows.yaml.j2
     dest: '{{ project_dir }}/.github/workflows/cicd.yaml'
     mode: '0644'
+
+- name: Set SSH_PRIVATE_KEY
+  ansible.builtin.shell:
+    cmd: gh secret set SSH_PRIVATE_KEY < ~/.ssh/id_ed25519
+    chdir: '{{ project_dir }}'
+
+- name: Set VAULT_PASS
+  ansible.builtin.shell:
+    cmd: gh secret set VAULT_PASS < ~/.vault_pass.txt
+    chdir: '{{ project_dir }}'

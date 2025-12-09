@@ -1,6 +1,6 @@
 ---
 domain_name: meet.fpt-healthcare.com
-host_ip: 34.142.157.137
+host_ip: 35.240.162.220
 jitsi_cfg_dir: '{{ home_dir }}/.jitsi-meet-cfg'
 jitsi_dir: '{{ home_dir }}/jitsi'
 jitsi_docker_dir: '{{ jitsi_dir }}/jitsi-docker-jitsi-meet-3de7148'

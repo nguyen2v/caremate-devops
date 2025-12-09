@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   vars:
-    project_name: doc-cat-api
+    project_name: cengine-api
   roles:
     - role: github-workflows-helper
       project_dir: '/Users/somallg/Code/hls-product/{{ project_name }}'

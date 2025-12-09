@@ -1,63 +1,50 @@
 ---
-# - name: Fetch latest code
-#   ansible.builtin.git:
-#     repo: git@bitbucket.org:hls-product/jitsi.git
-#     dest: jitsi
-#     force: true
-#     version: main
+- name: Install dependencies
+  ansible.builtin.command:
+    cmd: npm install
+  args:
+    chdir: '{{ jitsi_web_dir }}'
+  changed_when: false
 
-# - name: Apply custom patch
-#   ansible.builtin.command:
-#     cmd: git apply custom-patches/ai-transcription.patch # noqa: command-instead-of-module
-#     chdir: '{{ jitsi_web_dir }}'
-#   changed_when: false
+- name: Build Jitsi Meet Web
+  ansible.builtin.command:
+    cmd: make
+  args:
+    chdir: '{{ jitsi_web_dir }}'
+  changed_when: false
 
-# - name: Install dependencies
-#   ansible.builtin.command:
-#     cmd: npm install
-#   args:
-#     chdir: '{{ jitsi_web_dir }}'
-#   changed_when: false
+- name: Build deb packages
+  ansible.builtin.command:
+    cmd: dpkg-buildpackage -A -rfakeroot -us -uc -d
+  args:
+    chdir: '{{ jitsi_web_dir }}'
+  changed_when: false
 
-# - name: Build Jitsi Meet Web
-#   ansible.builtin.command:
-#     cmd: make
-#   args:
-#     chdir: '{{ jitsi_web_dir }}'
-#   changed_when: false
+- name: Copy jitsi-meet-web-config package to docker build folder
+  ansible.builtin.copy:
+    src: '{{ jitsi_web_config_deb_path }}'
+    dest: '{{ jitsi_docker_dir }}/web'
+    remote_src: true
+    mode: '0644'
 
-# - name: Build deb packages
-#   ansible.builtin.command:
-#     cmd: dpkg-buildpackage -A -rfakeroot -us -uc -d
-#   args:
-#     chdir: '{{ jitsi_web_dir }}'
-#   changed_when: false
+- name: Copy jitsi-meet package to docker build folder
+  ansible.builtin.copy:
+    src: '{{ jitsi_web_deb_path }}'
+    dest: '{{ jitsi_docker_dir }}/web'
+    remote_src: true
+    mode: '0644'
 
-# - name: Copy jitsi-meet-web-config package to docker build folder
-#   ansible.builtin.copy:
-#     src: '{{ jitsi_web_config_deb_path }}'
-#     dest: '{{ jitsi_docker_dir }}/web'
-#     remote_src: true
-#     mode: '0644'
+- name: Build Jitsi base docker
+  ansible.builtin.command:
+    cmd: make build_base
+    chdir: '{{ jitsi_docker_dir }}'
+  changed_when: false
 
-# - name: Copy jitsi-meet package to docker build folder
-#   ansible.builtin.copy:
-#     src: '{{ jitsi_web_deb_path }}'
-#     dest: '{{ jitsi_docker_dir }}/web'
-#     remote_src: true
-#     mode: '0644'
-
-# - name: Build Jitsi base docker
-#   ansible.builtin.command:
-#     cmd: make build_base
-#     chdir: '{{ jitsi_docker_dir }}'
-#   changed_when: false
-
-# - name: Build Jitsi Web docker
-#   ansible.builtin.command:
-#     cmd: make build_web
-#     chdir: '{{ jitsi_docker_dir }}'
-#   changed_when: false
+- name: Build Jitsi Web docker
+  ansible.builtin.command:
+    cmd: make build_web
+    chdir: '{{ jitsi_docker_dir }}'
+  changed_when: false
 
 - name: Restart Jitsi web docker container
   ansible.builtin.include_role:
