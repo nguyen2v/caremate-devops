@@ -11,3 +11,10 @@
   vars:
     chdir: '{{ project_dir }}'
     target_service: '{{ sub_project_name }}'
+
+- name: Run migration {{ sub_project_name }}
+  ansible.builtin.command:
+    cmd: 'docker compose exec {{ sub_project_name }} poetry run alembic upgrade head'
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  when: sub_project_name == 'cengine_api'
