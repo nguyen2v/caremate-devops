@@ -17,4 +17,4 @@
     cmd: 'docker compose exec {{ sub_project_name }} poetry run alembic upgrade head'
     chdir: '{{ project_dir }}'
   changed_when: false
-  when: sub_project_name == 'cengine_api'
+  when: sub_project_name == 'cengine-api'
