@@ -23,7 +23,7 @@ locals {
     },
     "jitsi-server" = {
       address      = "35.240.162.220"
-      machine_type = local.machine_type.e2_medium
+      machine_type = local.machine_type.e2_standard_2
       snapshot     = "projects/${local.project_id}/global/snapshots/jitsi-server-${local.snapshot_date}"
       region       = local.region_southeast1
       status       = local.running

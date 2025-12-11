@@ -26,7 +26,7 @@
       ansible.builtin.copy:
         content: |
           config.transcription.enabled = true;
-          config.transcription.translationLanguages = ["vi", "en", "ko", "zh-CN", "ja", "ms"];
+          config.transcription.translationLanguages = ["en", "fr", "ja", "ko", "ms", "vi", "zh-CN"];
           config.transcription.useAppLanguage = false;
 
           config.testing.dumpTranscript = true;

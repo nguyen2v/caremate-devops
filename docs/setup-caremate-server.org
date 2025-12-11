@@ -186,6 +186,6 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 * Setup Github Workflows
 #+begin_src bash
 ansible-playbook playbooks/setup-github-workflows.yaml \
-  --extra-vars='{ "project_name": "cengine-api" }' \
+  --extra-vars='{ "project_name": "caremate-portal" }' \
   --verbose
 #+end_src
