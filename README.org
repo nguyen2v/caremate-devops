@@ -15,3 +15,7 @@ Check the following documents in order
 
 Others:
 1. [[./docs/setup-chrome-remote-desktop.org][Setup Chrome Remote Desktop]]
+
+#+begin_src emacs-lisp
+(set-eglot-client! 'yaml-ts-mode '("/opt/homebrew/bin/ansible-language-server" "--stdio"))
+#+end_src

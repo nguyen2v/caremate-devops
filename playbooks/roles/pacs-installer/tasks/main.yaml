@@ -1,0 +1,35 @@
+---
+- name: Ensure project folder exists
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0700'
+  loop:
+    - '{{ config_dir }}'
+    - '{{ config_dir }}/orthanc'
+    - '{{ project_dir }}'
+
+- name: Deploy docker-compose config template
+  ansible.builtin.template:
+    src: docker-compose.yaml.j2
+    dest: '{{ project_dir }}/docker-compose.yaml'
+    mode: '0644'
+
+- name: Deploy project .env template
+  ansible.builtin.template:
+    src: env.j2
+    dest: '{{ project_dir }}/.env'
+    mode: '0644'
+
+- name: Deploy orthanc config template
+  ansible.builtin.template:
+    src: orthanc.json.j2
+    dest: '{{ config_dir }}/orthanc/orthanc.json'
+    mode: '0644'
+
+- name: Build and start pacs-server
+  ansible.builtin.include_role:
+    name: docker-compose-helper
+  vars:
+    chdir: '{{ project_dir }}'
+    target_service: pacs-server

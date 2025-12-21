@@ -21,6 +21,7 @@ argument_specs:
           - doc-cat-api
           - mental-care
           - nginx
+          - pacs-server
           - postgres
           - redis
           - server

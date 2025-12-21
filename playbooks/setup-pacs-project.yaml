@@ -1,0 +1,5 @@
+---
+- name: Setup pacs project
+  hosts: pacs-server
+  roles:
+    - pacs-installer

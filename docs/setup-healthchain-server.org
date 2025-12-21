@@ -1,0 +1,65 @@
+#+title: Setup Healthchain Server
+#+date: <2025-12-15 Mon 21:28>
+#+startup: content
+#+property: header-args :noweb yes :results none
+#+filetags: :Setup:HealthChain:
+
+* Set variables
+#+name: TARGET_SERVER
+#+begin_src bash
+pacs-server
+#+end_src
+
+* Setup core packages
+#+begin_src bash
+ansible-playbook playbooks/setup-core-config.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
+
+* Setup SSH key
+#+begin_src bash
+ansible-playbook playbooks/setup-ssh-key.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
+
+* Setup docker
+#+begin_src bash
+ansible-playbook playbooks/setup-docker.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
+
+* Setup caremate-chain source code
+#+begin_src bash
+ansible-playbook playbooks/setup-pacs-project.yaml --verbose
+#+end_src
+
+* Issue HTTP Certificate
+** Configure DNS
+- Add =pacs= entry to DNS config
+ | Type     | Host |         Value | TTL       |
+ |----------+------+---------------+-----------|
+ | A Record | pacs | 35.186.148.86 | Automatic |
+
+- Wait for DNS propagation
+#+begin_src bash
+dig +short pacs.fpt-healthcare.com
+#+end_src
+
+** Issue new Certificate
+#+begin_src bash
+ansible-playbook playbooks/setup-nginx.yaml \
+  --extra-vars='{ "ssl": false, "server": "pacs" }' \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
+
+* Deploy nginx
+#+begin_src bash
+ansible-playbook playbooks/setup-nginx.yaml \
+  --extra-vars='{ "server": "pacs" }' \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
