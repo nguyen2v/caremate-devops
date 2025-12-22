@@ -5,6 +5,48 @@
     chdir: '{{ chdir }}'
   changed_when: false
 
+- name: Check disk usage
+  ansible.builtin.shell:
+    cmd: df / | awk 'NR==2 {print int($5)}'
+  changed_when: false
+  failed_when: false
+  register: disk_usage
+
+- name: Display current disk usage
+  ansible.builtin.debug:
+    msg: 'Current disk usage: {{ disk_usage.stdou }}%'
+
+- name: Run docker system prune if disk usage > 90%
+  block:
+    - name: Warn about high disk usage
+      ansible.builtin.debug:
+        msg: 'WARNING: Disk usage is {{ disk_usage.stdout }}% (threshold: 90%)'
+
+    - name: Rune docker system
+      ansible.builtin.command:
+        cmd: docker system prune -af --volumes
+      register: prune_result
+      failed_when: false
+
+    - name: Display prune results
+      ansible.builtin.debug:
+        var: prune_result.stdout_lines
+
+  when: disk_usage.stdout | int > 90
+
+- name: Re-check disk usage after cleanup
+  ansible.builtin.shell:
+    cmd: df / | awk 'NR==2 {print int($5)}'
+  changed_when: false
+  failed_when: false
+  register:: disk_usage_after
+  when: disk_usage.stdout | int > 90
+
+- name: Display disk usage after cleanup
+  ansible.builtin.debug:
+    msg: 'Disk usage after cleanup: {{ disk_usage_after.stdout }}%'
+  when: disk_usage.stdout | int > 90
+
 - name: Build {{ target_service }}
   ansible.builtin.command:
     cmd: docker compose build {{ target_service }}
