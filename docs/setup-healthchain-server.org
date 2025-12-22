@@ -7,7 +7,7 @@
 * Set variables
 #+name: TARGET_SERVER
 #+begin_src bash
-pacs-server
+chain-server
 #+end_src
 
 * Setup core packages
@@ -33,15 +33,27 @@ ansible-playbook playbooks/setup-docker.yaml \
 
 * Setup caremate-chain source code
 #+begin_src bash
-ansible-playbook playbooks/setup-pacs-project.yaml --verbose
+ansible-playbook playbooks/setup-caremate-project.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
+
+* Setup pacs source code
+#+begin_src bash
+ansible-playbook playbooks/setup-pacs-project.yaml \
+  --limit=pacs-server \
+  --verbose
 #+end_src
 
 * Issue HTTP Certificate
 ** Configure DNS
 - Add =pacs= entry to DNS config
- | Type     | Host |         Value | TTL       |
- |----------+------+---------------+-----------|
- | A Record | pacs | 35.186.148.86 | Automatic |
+ | Type | Host  |          Value | TTL  |
+ |------+-------+----------------+------|
+ | A    | api   | 34.124.210.203 | Auto |
+ | A    | chain |  35.186.148.86 | Auto |
+ | A    | meet  | 35.240.162.220 | Auto |
+ | A    | pacs  |  35.186.148.86 | Auto |
 
 - Wait for DNS propagation
 #+begin_src bash
@@ -51,15 +63,20 @@ dig +short pacs.fpt-healthcare.com
 ** Issue new Certificate
 #+begin_src bash
 ansible-playbook playbooks/setup-nginx.yaml \
-  --extra-vars='{ "ssl": false, "server": "pacs" }' \
+  --extra-vars='{ "ssl": false }' \
   --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
-* Deploy nginx
+* Deploy caremate-chain
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-chain.yaml \
+  --verbose
+#+end_src
+
+* Deploy nginx (HTTPS)
 #+begin_src bash
 ansible-playbook playbooks/setup-nginx.yaml \
-  --extra-vars='{ "server": "pacs" }' \
   --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src

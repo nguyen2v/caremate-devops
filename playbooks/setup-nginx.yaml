@@ -3,11 +3,9 @@
   hosts: all
   vars:
     ssl: true
-    server: caremate
   roles:
     - role: nginx-docker-helper
       enable_ssl: '{{ ssl }}'
-      server_name: '{{ server }}'
 
     - role: certbot-helper
       when: not ssl

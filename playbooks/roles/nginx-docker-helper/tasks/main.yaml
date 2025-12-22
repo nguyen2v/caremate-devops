@@ -10,7 +10,7 @@
 
 - name: Deploy nginx config template
   ansible.builtin.template:
-    src: '{{ server_name }}-nginx.conf.j2'
+    src: '{{ subdomain_name }}-nginx.conf.j2'
     dest: '{{ config_dir }}/nginx/{{ domain_name }}.conf'
     mode: '0644'
   vars:
@@ -20,7 +20,7 @@
   ansible.builtin.blockinfile:
     dest: '{{ project_dir }}/docker-compose.yaml'
     marker: '  # {mark} ANSIBLE MANAGED NGINX BLOCK'
-    content: "{{ lookup('template', server_name + '-nginx-service-block.j2') }}"
+    content: "{{ lookup('template', subdomain_name + '-nginx-service-block.j2') }}"
 
 - name: Restart nginx
   ansible.builtin.include_role:

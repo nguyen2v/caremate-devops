@@ -1,7 +1,7 @@
 ---
-- name: Setup root .env
+- name: Setup project .env
   ansible.builtin.template:
-    src: env.j2
+    src: '{{ project_name }}-env.j2'
     dest: '{{ project_dir }}/.env'
     mode: '0644'
 
@@ -16,9 +16,11 @@
     src: caremate.config.json.j2
     dest: '{{ config_dir }}/caremate.config.json'
     mode: '0644'
+  when: project_name == 'caremate'
 
 - name: Ensure binary folder exists
   ansible.builtin.file:
     path: '{{ project_dir }}/binary'
     state: directory
     mode: '0777'
+  when: project_name == 'caremate'

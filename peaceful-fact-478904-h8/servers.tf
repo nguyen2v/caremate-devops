@@ -25,7 +25,7 @@ locals {
       address      = "35.185.182.39"
       machine_type = local.machine_type.e2_standard_2
       region       = local.region_southeast1
-      status       = local.terminated
+      status       = local.running
       zone         = local.zone_southeast1
     },
     "jitsi-server" = {

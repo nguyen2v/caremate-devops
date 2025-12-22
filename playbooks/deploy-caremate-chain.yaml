@@ -1,9 +1,11 @@
 ---
 - name: Deploy caremate server
-  hosts: caremate-server
+  hosts: chain-server
   roles:
     - role: git-puller
       repo: 'git@github.com:nguyen2v/{{ project_name }}.git'
       dest: '{{ project_name }}'
 
-    - role: caremate-builder
+    - role: docker-compose-helper
+      chdir: '{{ project_dir }}'
+      target_service: caremate-chain

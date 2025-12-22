@@ -21,8 +21,8 @@ argument_specs:
         description: >-
           Absolute path to the root directory of the project on the target system
 
-      server_name:
+      subdomain_name:
         type: str
         required: true
         description: >-
-          Name of the target server to deploy nginx
+          Name of subdomain used to construct nginx configuration and reverse proxy routes

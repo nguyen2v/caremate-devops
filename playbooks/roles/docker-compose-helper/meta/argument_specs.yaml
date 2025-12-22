@@ -16,6 +16,7 @@ argument_specs:
           - backend
           - care-assistant
           - caremate-agent
+          - caremate-chain
           - caremate-mcp
           - cengine-api
           - doc-cat-api

@@ -18,7 +18,7 @@ services:
   # BEGIN ANSIBLE MANAGED PACS-SERVER BLOCK
   pacs-server:
     container_name: pacs-server
-    image: jodogne/orthanc:1.12.10
+    image: jodogne/orthanc-plugins:1.12.10
     environment:
       ORTHANC_NAME: "Caremate"
     ports:

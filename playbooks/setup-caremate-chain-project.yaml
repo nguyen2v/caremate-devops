@@ -1,6 +1,6 @@
 ---
 - name: Setup caremate project source code
-  hosts: all
+  hosts: caremate-server
   roles:
     - role: git-puller
       repo: 'git@github.com:nguyen2v/{{ project_name }}.git'

@@ -1,6 +1,6 @@
 ---
-config_dir: '{{ home_dir }}/.pacs-config'
-project_name: pacs
+config_dir: '{{ home_dir }}/.caremate-chain'
+project_name: caremate-chain
 project_dir: '{{ home_dir }}/{{ project_name }}'
-subdomain_name: pacs
+subdomain_name: chain
 domain_name: '{{ subdomain_name }}.fpt-healthcare.com'
