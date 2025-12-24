@@ -1,5 +1,5 @@
 ---
-domain_name: meet.fpt-healthcare.com
+subdomain_name: meet
 host_ip: 35.240.162.220
 jitsi_cfg_dir: '{{ home_dir }}/.jitsi-meet-cfg'
 jitsi_dir: '{{ home_dir }}/jitsi'

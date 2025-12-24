@@ -3,4 +3,3 @@ config_dir: '{{ home_dir }}/.caremate-chain'
 project_name: caremate-chain
 project_dir: '{{ home_dir }}/{{ project_name }}'
 subdomain_name: chain
-domain_name: '{{ subdomain_name }}.fpt-healthcare.com'

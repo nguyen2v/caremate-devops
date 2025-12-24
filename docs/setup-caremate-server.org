@@ -120,7 +120,9 @@ caremate-server% ll ~/.caremate-config/caremate.config.json
 * Deploy nginx
 - Run command below to update nginx.conf and deploy
 #+begin_src bash
-ansible-playbook playbooks/setup-nginx.yaml --verbose
+ansible-playbook playbooks/setup-nginx.yaml \
+  --limit=caremate-server \
+  --verbose
 #+end_src
 
 * Deploy ads-api
