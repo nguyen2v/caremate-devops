@@ -9,7 +9,6 @@ locals {
       tcp_ports    = ["5432", "7474", "7687"]
       zone         = local.zone_southeast1
       ssh_keys = join("\n", [
-        "dhp:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHA8rvoQGuvHwWY8vBSh6dzvzMFQYzQ5V4IG1hkmig3z tq.duong@icloud.com",
         "dhp:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILEpv1HpPeO5s10jM+drNiiFCDicchdJ4C9ecHb8wkXz dhng084@gmail.com",
         "dhp:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxVehBIHD4RpiKzCtPtiuB7mZ7EjlN225ItMImeJvTYvOh6X6/SBlL3tjSMnruLnUPK4XA9+XwKIYg8TmJvMM4tWVJurpjRzTMWNDgkbCWC3TeB1x38NtSf2nVopEvg+pZFfnkt7F/v9wirONOwWK/HfhpP9AcEOZ9m2Td+DAc3MqJF3OoiEbA1vL+lPyK0wqsqjO8tT/Hz+UAjYFLu0mEEoq4M78GJ+X6BWwG0Ps/6RFWi6wq2Gs6qbiOfg5hUD+5jF5qo3RQnQfS8MZKr7XrioEqFTbXoebBEilJiNtZ4/1CNmFnLIho8/0K3J1F9U6bZewDHgigetBs1aCtUfiRPijZ4ft1+Qz8Kqdl5/glx86kX/9sio4Wj1cVsxXKSvJXxESbjpe+J2m8EOUkf5gIeBg47p1A7/0QKN5qJQ6jFaELpBvvoLuxYDO+dOPYNV4Xe2fkIf/QzTpfFEe89nL0u/nieYDt1hBtHW6M7PgjjDaB6ETTcJkArv1EATfiJYPv0f5gfdpst+Gu9aPXhU3RkcYPy7sW1J87yKyg6jCC74ScPI06hL9H13xsAVhkVJTCgdHoepx3olCXY1J1w51cZzw/IhDiPSk3d1xbprR/8pe7rCHONYuke7diEFLAlrXCgMmPZkJDu11fhXEnnwaLdUXlAG6Btbj/FA8huDIAaw== ThanhTK4",
       ])
