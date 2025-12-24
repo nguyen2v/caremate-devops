@@ -1,5 +1,5 @@
 ---
-- name: Deploy caremate server
+- name: Deploy caremate-chain
   hosts: chain-server
   roles:
     - role: git-puller
