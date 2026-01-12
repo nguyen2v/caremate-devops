@@ -1,0 +1,57 @@
+---
+- name: Backup caremate server
+  hosts: caremate-server
+  tasks:
+    - name: Get current date
+      ansible.builtin.command:
+        cmd: date +%Y-%m-%d
+      register: current_date
+      changed_when: false
+
+    - name: Check if binary backup already exists
+      ansible.builtin.stat:
+        path: '{{ project_dir }}/binary-{{ current_date.stdout }}.zip'
+      register: binary_backup
+
+    - name: Backup databases to sql files
+      ansible.builtin.shell:
+        cmd: 'docker exec postgres pg_dump -U medplum -d {{ item }} > {{ item }}.sql'
+        chdir: '{{ project_dir }}'
+      loop:
+        - cengine_api
+        - medplum
+      changed_when: false
+      when: not binary_backup.stat.exists
+
+    - name: Install zip
+      ansible.builtin.apt:
+        name: zip
+        state: present
+        update_cache: true
+      become: true
+      when: not binary_backup.stat.exists
+
+    - name: Zip sql files
+      ansible.builtin.command:
+        cmd: 'zip database-{{ current_date.stdout }}.zip cengine_api.sql medplum.sql'
+        chdir: '{{ project_dir }}'
+      changed_when: false
+      when: not binary_backup.stat.exists
+
+    - name: Zip binary folder
+      ansible.builtin.command:
+        cmd: 'zip -r binary-{{ current_date.stdout }}.zip binary'
+        chdir: '{{ project_dir }}'
+      changed_when: false
+      when: not binary_backup.stat.exists
+
+    - name: Copy zip files to local
+      ansible.builtin.fetch:
+        src: '{{ project_dir }}/{{ item }}-{{ current_date.stdout }}.zip'
+        dest: ~/Code/hls-product/caremate-devops/backup/
+        flat: true
+      loop:
+        - binary
+        - database
+      changed_when: false
+      when: not binary_backup.stat.exists

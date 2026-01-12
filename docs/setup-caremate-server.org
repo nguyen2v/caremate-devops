@@ -183,3 +183,9 @@ ansible-playbook playbooks/setup-github-workflows.yaml \
   --extra-vars='{ "project_name": "caremate-portal" }' \
   --verbose
 #+end_src
+
+* Backup data
+#+begin_src bash
+ansible-playbook playbooks/backup-caremate-server.yaml \
+  --verbose
+#+end_src

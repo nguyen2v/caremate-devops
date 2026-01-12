@@ -5,7 +5,7 @@ locals {
       machine_type = local.machine_type.e2_standard_2
       snapshot     = "projects/${local.project_id}/global/snapshots/caremate-server-${local.snapshot_date}"
       region       = local.region_southeast1
-      status       = local.terminated
+      status       = local.running
       tcp_ports    = ["5432", "7474", "7687"]
       zone         = local.zone_southeast1
       ssh_keys = join("\n", [
@@ -32,7 +32,7 @@ locals {
       machine_type = local.machine_type.e2_standard_2
       snapshot     = "projects/${local.project_id}/global/snapshots/jitsi-server-${local.snapshot_date}"
       region       = local.region_southeast1
-      status       = local.terminated
+      status       = local.running
       tcp_ports    = ["5222", "5349"]
       udp_ports    = ["10000"]
       zone         = local.zone_southeast1
@@ -41,7 +41,7 @@ locals {
       address      = "35.186.148.86"
       machine_type = local.machine_type.e2_standard_2
       region       = local.region_southeast1
-      status       = local.running
+      status       = local.terminated
       zone         = local.zone_southeast1
     },
   }
