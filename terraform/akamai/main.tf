@@ -1,10 +1,15 @@
 locals {
   servers = {
-
     caremate = {
       label     = "${local.namespace}-server"
       type      = local.g6_dedicated_4
       tcp_ports = [7474, 7687]
+    }
+    jitsi = {
+      label     = "jitsi-server"
+      type      = local.g6_dedicated_4
+      tcp_ports = [5222, 5349]
+      udp_ports = [10000]
     }
   }
 }
@@ -46,6 +51,19 @@ resource "linode_firewall" "servers-firewall" {
       label    = "allow-port-${inbound.value}"
       action   = "ACCEPT"
       protocol = "TCP"
+      ports    = tostring(inbound.value)
+      ipv4     = ["0.0.0.0/0"]
+      ipv6     = ["::/0"]
+    }
+  }
+
+  dynamic "inbound" {
+    for_each = lookup(local.servers[each.key], "udp_ports", [])
+
+    content {
+      label    = "allow-port-${inbound.value}"
+      action   = "ACCEPT"
+      protocol = "UDP"
       ports    = tostring(inbound.value)
       ipv4     = ["0.0.0.0/0"]
       ipv6     = ["::/0"]
