@@ -948,7 +948,7 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 **Each deployment does:**
 
 1. Clones/updates service repository
-2. Adds service block to `docker-compose.yml`
+2. Adds service block to `docker-compose.yaml`
 3. Builds Docker image
 4. Starts service container
 5. Displays service logs
@@ -1039,7 +1039,7 @@ curl https://api.fpt-healthcare.com/neo4j/
 **Check service logs:**
 
 ```bash
-ssh dhp@caremate-server "docker compose -f caremate-server/docker-compose.yml logs --tail 50 caremate-server"
+ssh dhp@caremate-server "docker compose -f caremate-server/docker-compose.yaml logs --tail 50 caremate-server"
 ```
 
 #### Step 32: Verify Database Connectivity
@@ -1503,7 +1503,7 @@ ssh dhp@caremate-server "ps aux --sort=-%mem | head -20"
 # Restart high-memory containers
 docker compose restart <service-name>
 
-# Add memory limits to docker-compose.yml
+# Add memory limits to docker-compose.yaml
 # services:
 #   caremate-server:
 #     mem_limit: 2g
@@ -2733,7 +2733,7 @@ docker compose up -d caremate-server
 - **Project Root:** `/home/dhp/caremate-server/`
 - **Environment File:** `/home/dhp/caremate-server/.env`
 - **Config File:** `/home/dhp/.caremate-config/caremate.config.json`
-- **Docker Compose:** `/home/dhp/caremate-server/docker-compose.yml`
+- **Docker Compose:** `/home/dhp/caremate-server/docker-compose.yaml`
 - **Service Repositories:**
   - `/home/dhp/cengine-api/`
   - `/home/dhp/caremate-assistant/`

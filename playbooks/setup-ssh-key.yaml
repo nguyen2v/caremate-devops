@@ -1,0 +1,48 @@
+---
+- name: Setup SSH key
+  hosts: all
+  vars:
+    ssh_key_path: ~/.ssh/id_ed25519
+  tasks:
+    - name: Ensure .ssh directory exists
+      ansible.builtin.file:
+        path: '{{ home_dir }}/.ssh'
+        state: directory
+        mode: '0700'
+
+    - name: 'Copy private SSH key from local {{ ssh_key_path }}'
+      ansible.builtin.copy:
+        src: '{{ ssh_key_path }}'
+        dest: '{{ home_dir }}/.ssh/id_rsa'
+        mode: '0600'
+
+    - name: Setup ssh config
+      ansible.builtin.blockinfile:
+        path: '{{ home_dir }}/.ssh/config'
+        marker: '# {mark} ANSIBLE MANAGED BLOCK'
+        block: |
+          Host github.com
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+        create: true
+        mode: '0600'
+
+    - name: Restart ssh-agent
+      ansible.builtin.shell: |
+        eval "$(ssh-agent -s)"
+        ssh-add {{ home_dir }}/.ssh/id_rsa
+      changed_when: false
+
+    - name: Verify git connections
+      ansible.builtin.command:
+        cmd: 'ssh -T git@{{ item }}'
+      loop:
+        - github.com
+      changed_when: false
+      failed_when: false
+      register: git_connection_results
+
+    - name: Print git connection results
+      ansible.builtin.debug:
+        msg: '{{ item.item }}: {{ item.stdout_lines or item.stderr_lines }}'
+      loop: '{{ git_connection_results.results }}'

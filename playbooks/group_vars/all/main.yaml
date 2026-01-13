@@ -1,4 +1,2 @@
 ---
-ansible_user: dhp
-home_dir: '/home/{{ ansible_user }}'
 domain_name: '{{ subdomain_name }}.fpt-healthcare.com'

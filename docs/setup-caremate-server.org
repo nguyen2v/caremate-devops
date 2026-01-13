@@ -14,44 +14,55 @@
 # glcoud servers
 34.126.130.128 caremate-server
 34.142.157.137 jitsi-server
+
+# linode cloud
+172.236.130.227 linode-caremate-server
 #+end_src
 
 * SSH into caremate server using host name
+** Google
 #+begin_src bash
 ssh dhp@caremate-server
+#+end_src
+
+** Linode
+#+begin_src bash
+ssh root@linode-caremate-server
 #+end_src
 
 * Setup core packages
 #+begin_src bash
 ansible-playbook playbooks/setup-core-config.yaml \
-  --limit=caremate-server \
-  --verbose
-#+end_src
-
-* Setup SSH key
-#+begin_src bash
-ansible-playbook playbooks/setup-ssh-key.yaml \
-  --limit=caremate-server \
+  --limit=linode-caremate-server \
   --verbose
 #+end_src
 
 * Setup docker
 #+begin_src bash
 ansible-playbook playbooks/setup-docker.yaml \
-  --limit=caremate-server \
+  --limit=linode-caremate-server \
   --verbose
 #+end_src
 
 * Setup Nodejs
 #+begin_src bash
 ansible-playbook playbooks/setup-nodejs.yaml \
-  --limit=caremate-server \
+  --limit=linode-caremate-server \
+  --verbose
+#+end_src
+
+* Setup SSH key
+#+begin_src bash
+ansible-playbook playbooks/setup-ssh-key.yaml \
+  --limit=linode-caremate-server \
   --verbose
 #+end_src
 
 * Setup caremate source code
 #+begin_src bash
-ansible-playbook playbooks/setup-caremate-project.yaml --verbose
+ansible-playbook playbooks/setup-caremate-project.yaml \
+  --limit=linode-caremate-server \
+  --verbose
 #+end_src
 
 * Issue HTTPS certificate
