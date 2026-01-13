@@ -30,49 +30,72 @@ ssh dhp@caremate-server
 ssh root@linode-caremate-server
 #+end_src
 
+* Setup TARGET_SERVER
+#+name: TARGET_SERVER
+#+begin_src bash
+linode-caremate-server
+#+end_src
+
 * Setup core packages
 #+begin_src bash
 ansible-playbook playbooks/setup-core-config.yaml \
-  --limit=linode-caremate-server \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
 * Setup docker
 #+begin_src bash
 ansible-playbook playbooks/setup-docker.yaml \
-  --limit=linode-caremate-server \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
 * Setup Nodejs
 #+begin_src bash
 ansible-playbook playbooks/setup-nodejs.yaml \
-  --limit=linode-caremate-server \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
 * Setup SSH key
 #+begin_src bash
 ansible-playbook playbooks/setup-ssh-key.yaml \
-  --limit=linode-caremate-server \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
 * Setup caremate source code
 #+begin_src bash
 ansible-playbook playbooks/setup-caremate-project.yaml \
-  --limit=linode-caremate-server \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
+#+end_src
+
+* Start postgres and redis
+#+begin_src bash
+ssh root@linode-caremate-server
+
+cd caremate
+
+docker compose up -d postgres
+docker compose up -d redis
+#+end_src
+
+* Restore data
+#+begin_src bash
+ansible-playbook playbooks/restore-caremate-server.yaml \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
 * Issue HTTPS certificate
 ** Step 1: Configure DNS
-- Add caremate-server IP to Namecheap DNS config
- | Type     | Host |          Value | TTL       |
- |----------+------+----------------+-----------|
- | A Record | api  | 34.126.130.128 | Automatic |
+- Add caremate-server IP to =https://domain.tenten.vn/ApiDnsSetting= DNS config
+ | Type     | Host |           Value | TTL       |
+ |----------+------+-----------------+-----------|
+ | A Record | api  | 172.236.130.227 | Automatic |
 
-- Wait for DNS propagation (use `dig api.yourdomain.com` to verify)
+- Wait for DNS propagation
 #+begin_src bash
 dig +short api.fpt-healthcare.com
 #+end_src
@@ -81,7 +104,7 @@ dig +short api.fpt-healthcare.com
 #+begin_src bash
 ansible-playbook playbooks/setup-nginx.yaml \
   --extra-vars='{ "ssl": false }' \
-  --limit=caremate-server \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 
@@ -109,7 +132,9 @@ ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
 
 ** Deploy server
 #+begin_src bash
-ansible-playbook playbooks/deploy-caremate-server.yaml --verbose
+ansible-playbook playbooks/deploy-caremate-server.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --verbose
 #+end_src
 
 ** Deploy manually
@@ -120,51 +145,42 @@ export GITHUB_SHA=aa5f59f
 ./scripts/build-docker-server.sh
 #+end_src
 
-* Deploy nginx
-- Run command below to update nginx.conf and deploy
-#+begin_src bash
-ansible-playbook playbooks/setup-nginx.yaml \
-  --limit=caremate-server \
-  --verbose
-#+end_src
-
-* Deploy ads-api
-#+begin_src bash
-ansible-playbook playbooks/deploy-caremate-service.yaml \
-  --extra-vars='{ "service_name": "caremate-agent", "sub_project": "ads-api" }' \
-  --verbose
-#+end_src
-
 * Deploy ai-scribe
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
-  --extra-vars='{ "service_name": "caremate-agent", "sub_project": "ai-scribe" }' \
+  --limit=<<TARGET_SERVER>> \
+  --extra-vars='{ "service_name": "caremate-assistant", "sub_project": "ai-scribe" }' \
+  --verbose
+#+end_src
+
+* Deploy caremate-mcp
+#+begin_src bash
+ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --extra-vars='{ "service_name": "caremate-mcp" }' \
   --verbose
 #+end_src
 
 * Deploy caremate-agent
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --limit=<<TARGET_SERVER>> \
   --extra-vars='{ "service_name": "caremate-agent" }' \
   --verbose
 #+end_src
 
-* Deploy caremate-assistant
+* Deploy care-assistant
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
-  --extra-vars='{ "service_name": "caremate-agent", "sub_project": "care-assistant" }' \
-  --verbose
-#+end_src
-
-* Deploy caremate-mcp
-#+begin_src bash
-ansible-playbook playbooks/deploy-caremate-mcp.yaml \
+  --limit=<<TARGET_SERVER>> \
+  --extra-vars='{ "service_name": "caremate-assistant", "sub_project": "care-assistant" }' \
   --verbose
 #+end_src
 
 * Deploy cengine-api
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --limit=<<TARGET_SERVER>> \
   --extra-vars='{ "service_name": "cengine-api" }' \
   --verbose
 #+end_src
@@ -177,6 +193,7 @@ ansible-playbook playbooks/seed-cengine-api.yaml
 * Deploy doc-cat-api
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --limit=<<TARGET_SERVER>> \
   --extra-vars='{ "service_name": "doc-cat-api" }' \
   --verbose
 #+end_src
@@ -184,7 +201,15 @@ ansible-playbook playbooks/deploy-caremate-service.yaml \
 * Deploy mental-care
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-service.yaml \
+  --limit=<<TARGET_SERVER>> \
   --extra-vars='{ "service_name": "mental-care" }' \
+  --verbose
+#+end_src
+
+* Deploy nginx
+#+begin_src bash
+ansible-playbook playbooks/setup-nginx.yaml \
+  --limit=<<TARGET_SERVER>> \
   --verbose
 #+end_src
 

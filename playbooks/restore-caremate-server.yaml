@@ -1,0 +1,53 @@
+---
+- name: Restore caremate server
+  hosts: linode-caremate-server
+  tasks:
+    - name: Set backup date
+      ansible.builtin.set_fact:
+        backup_date: 2026-01-12
+
+    - name: Copy zip files to remote
+      ansible.builtin.copy:
+        src: ~/Code/hls-product/caremate-devops/backup/{{ item }}-{{ backup_date }}.zip
+        dest: '{{ project_dir }}'
+        mode: '0644'
+      loop:
+        - binary
+        - database
+
+    - name: Unzip database files
+      ansible.builtin.unarchive:
+        src: '{{ project_dir }}/database-{{ backup_date }}.zip'
+        dest: '{{ project_dir }}'
+        remote_src: true
+
+    - name: Unzip binary folder
+      ansible.builtin.unarchive:
+        src: '{{ project_dir }}/binary-{{ backup_date }}.zip'
+        dest: '{{ project_dir }}'
+        remote_src: true
+
+    - name: Create databases
+      ansible.builtin.shell:
+        cmd: 'docker exec -it postgres psql -U medplum -c "CREATE DATABASE {{ item }};"'
+      loop:
+        - cengine_api
+        - medplum
+      changed_when: false
+
+    - name: Restore databases from sql files
+      ansible.builtin.shell:
+        cmd: 'docker exec -i postgres psql -U medplum -d {{ item }} < {{ item }}.sql'
+        chdir: '{{ project_dir }}'
+      loop:
+        - cengine_api
+        - medplum
+      changed_when: false
+
+    - name: Clean up zip files
+      ansible.builtin.file:
+        path: '{{ project_dir }}/{{ item }}-{{ backup_date }}.zip'
+        state: absent
+      loop:
+        - binary
+        - database

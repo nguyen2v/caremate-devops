@@ -5,7 +5,7 @@ locals {
       machine_type = local.machine_type.e2_standard_2
       snapshot     = "projects/${local.project_id}/global/snapshots/caremate-server-${local.snapshot_date}"
       region       = local.region_southeast1
-      status       = local.running
+      status       = local.terminated
       tcp_ports    = ["5432", "7474", "7687"]
       zone         = local.zone_southeast1
       ssh_keys = join("\n", [

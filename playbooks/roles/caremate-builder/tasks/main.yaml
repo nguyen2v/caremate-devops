@@ -26,7 +26,7 @@
 
 - name: Install dependencies
   ansible.builtin.command:
-    cmd: npm ci
+    cmd: npm ci --no-progress
     creates: node_modules
   args:
     chdir: '{{ project_dir }}'
@@ -41,7 +41,7 @@
   changed_when: false
   when: not skip_build
 
-- name: Builder docker server
+- name: Build docker server
   ansible.builtin.command:
     cmd: ./scripts/build-docker-server.sh
   args:

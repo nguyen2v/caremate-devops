@@ -1,6 +1,6 @@
 ---
 - name: Deploy caremate service
-  hosts: caremate-server
+  hosts: caremate
   vars:
     service_name: mental-care
     target_sub_project: '{{ sub_project | default(service_name) }}'

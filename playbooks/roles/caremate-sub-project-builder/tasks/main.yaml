@@ -5,6 +5,27 @@
     marker: '  # {mark} ANSIBLE MANAGED {{ sub_project_name | upper }} BLOCK'
     content: "{{ lookup('template', sub_project_name + '-service-block.j2') }}"
 
+- name: Ensure care-assistant config folder exists
+  ansible.builtin.file:
+    path: '{{ config_dir }}/care-assistant'
+    state: directory
+    mode: '0755'
+  when: sub_project_name == 'care-assistant'
+
+- name: Copy care-assistant config.json
+  ansible.builtin.template:
+    src: 'care-assistant-config.j2'
+    dest: '{{ config_dir }}/care-assistant/docker-config.json'
+    mode: '0644'
+  when: sub_project_name == 'care-assistant'
+
+- name: Ensure data-audio folder exists for mental-care
+  ansible.builtin.file:
+    path: '{{ project_dir }}/data-audio'
+    state: directory
+    mode: '0755'
+  when: sub_project_name == 'mental-care'
+
 - name: Build and start {{ sub_project_name }}
   ansible.builtin.include_role:
     name: docker-compose-helper

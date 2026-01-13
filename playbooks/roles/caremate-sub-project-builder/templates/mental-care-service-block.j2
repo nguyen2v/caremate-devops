@@ -3,12 +3,14 @@
     build: ./{{ sub_project_name }}
     container_name: {{ sub_project_name }}
     environment:
-      - AUDIO_DIR=data_audio
+      - AUDIO_DIR=data-audio
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - URL_MENTAL_HEALTH_BE=https://api.fpt-healthcare.com
+      - PAYLOAD_URL_TOKEN="grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}"
     ports:
       - 8004:8000
     networks:
       - caremate-network
     volumes:
-      - ./data_audio:/app/data_audio
+      - ./data-audio:/app/data-audio
     restart: unless-stopped

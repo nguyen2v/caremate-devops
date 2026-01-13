@@ -1,8 +1,10 @@
 locals {
   servers = {
+
     caremate = {
-      label = "${local.namespace}-server"
-      type  = local.g6_dedicated_4
+      label     = "${local.namespace}-server"
+      type      = local.g6_dedicated_4
+      tcp_ports = [7474, 7687]
     }
   }
 }
@@ -38,7 +40,7 @@ resource "linode_firewall" "servers-firewall" {
   label = "${each.value.label}-firewall"
 
   dynamic "inbound" {
-    for_each = sort(concat(local.default_tcp_ports, lookup(local.servers[each.key], "tcp_ports", [])))
+    for_each = concat(local.default_tcp_ports, lookup(local.servers[each.key], "tcp_ports", []))
 
     content {
       label    = "allow-port-${inbound.value}"

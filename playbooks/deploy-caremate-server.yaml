@@ -1,6 +1,6 @@
 ---
 - name: Deploy caremate server
-  hosts: caremate-server
+  hosts: all
   roles:
     - role: git-puller
       repo: 'git@github.com:nguyen2v/{{ project_name }}.git'
