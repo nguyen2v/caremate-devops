@@ -32,7 +32,7 @@ locals {
       machine_type = local.machine_type.e2_standard_2
       snapshot     = "projects/${local.project_id}/global/snapshots/jitsi-server-${local.snapshot_date}"
       region       = local.region_southeast1
-      status       = local.running
+      status       = local.terminated
       tcp_ports    = ["5222", "5349"]
       udp_ports    = ["10000"]
       zone         = local.zone_southeast1
