@@ -5,7 +5,11 @@ locals {
   public_subnet_cidr  = "10.10.0.0/24"
   region              = "sg-sin-2"
 
-  # instance types
+  # Shared CPU instance types
+  g6_standard_2 = "g6-standard-2" # 2 CPU, 80 GB Storage, 4 GB RAM
+  g6_standard_4 = "g6-standard-4" # 4 CPU, 160 GB Storage, 8 GB RAM
+
+  # Dedicated CPU instance types
   g6_dedicated_2 = "g6-dedicated-2" # 2 CPU, 80 GB Storage, 4 GB RAM
   g6_dedicated_4 = "g6-dedicated-4" # 4 CPU, 160 GB Storage, 8 GB RAM
   g6_dedicated_8 = "g6-dedicated-8" # 8 CPU, 320 GB Storage, 16 GB RAM

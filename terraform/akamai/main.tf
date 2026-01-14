@@ -5,11 +5,19 @@ locals {
       type      = local.g6_dedicated_4
       tcp_ports = [7474, 7687]
     }
+    healthchain = {
+      label = "healthchain-server"
+      type  = local.g6_dedicated_4
+    },
     jitsi = {
       label     = "jitsi-server"
-      type      = local.g6_dedicated_4
+      type      = local.g6_standard_4
       tcp_ports = [5222, 5349]
       udp_ports = [10000]
+    },
+    pacs = {
+      label = "pacs-server"
+      type  = local.g6_standard_2
     }
   }
 }
