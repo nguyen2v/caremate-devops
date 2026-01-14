@@ -1,10 +1,10 @@
 ---
 - name: Install Jitsi Docker stack
-  hosts: jitsi-server
+  hosts: jitsi
   tasks:
     - name: Fetch latest code
       ansible.builtin.git:
-        repo: git@bitbucket.org:hls-product/jitsi.git
+        repo: git@github.com:nguyen2v/caremate-jitsi.git
         dest: jitsi
         force: true
         version: main

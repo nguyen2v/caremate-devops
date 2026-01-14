@@ -1,6 +1,6 @@
 ---
 - name: Configure Jitsi Docker Stack
-  hosts: jitsi-server
+  hosts: jitsi
   tasks:
     - name: Configure Jitsi Docker PUBLIC_URL and Let's Encrypt settings
       ansible.builtin.lineinfile:
@@ -13,7 +13,7 @@
 
     - name: Copy fpt-software.svg to jitsi meet web config
       ansible.builtin.copy:
-        src: 'images/fpt-software.svg'
+        src: images/fpt-software.svg
         dest: '{{ jitsi_cfg_dir }}/web/{{ item }}'
         mode: '0644'
         backup: true

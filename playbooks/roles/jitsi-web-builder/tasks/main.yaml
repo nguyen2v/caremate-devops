@@ -1,10 +1,16 @@
 ---
+- name: Check Jitsi Web deb package
+  ansible.builtin.stat:
+    path: '{{ jitsi_web_deb_path }}'
+  register: jitsi_web_deb_stat
+
 - name: Install dependencies
   ansible.builtin.command:
     cmd: npm install
   args:
     chdir: '{{ jitsi_web_dir }}'
   changed_when: false
+  when: not jitsi_web_deb_stat.stat.exists
 
 - name: Build Jitsi Meet Web
   ansible.builtin.command:
@@ -12,6 +18,7 @@
   args:
     chdir: '{{ jitsi_web_dir }}'
   changed_when: false
+  when: not jitsi_web_deb_stat.stat.exists
 
 - name: Build deb packages
   ansible.builtin.command:
@@ -19,6 +26,7 @@
   args:
     chdir: '{{ jitsi_web_dir }}'
   changed_when: false
+  when: not jitsi_web_deb_stat.stat.exists
 
 - name: Copy jitsi-meet-web-config package to docker build folder
   ansible.builtin.copy:
