@@ -13,10 +13,24 @@
 
 - name: Set SSH_PRIVATE_KEY
   ansible.builtin.shell:
-    cmd: gh secret set SSH_PRIVATE_KEY < ~/.ssh/id_ed25519
+    cmd: gh secret set SSH_PRIVATE_KEY < ~/.ssh/id_rsa
     chdir: '{{ project_dir }}'
+  changed_when: false
 
 - name: Set VAULT_PASS
   ansible.builtin.shell:
     cmd: gh secret set VAULT_PASS < ~/.vault_pass.txt
     chdir: '{{ project_dir }}'
+  changed_when: false
+
+- name: Set LINODE_CAREMATE_SERVER_IP
+  ansible.builtin.command:
+    cmd: gh variable set LINODE_CAREMATE_SERVER_IP --body "172.236.130.227"
+    chdir: '{{ project_dir }}'
+  changed_when: false
+
+- name: Set TARGET_SERVER
+  ansible.builtin.command:
+    cmd: gh variable set TARGET_SERVER --body "linode-caremate-server"
+    chdir: '{{ project_dir }}'
+  changed_when: false

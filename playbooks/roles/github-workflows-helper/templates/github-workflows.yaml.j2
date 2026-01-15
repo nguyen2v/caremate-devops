@@ -8,10 +8,15 @@ on:
       - main
     paths:
       - .github/workflows/cicd.yaml
-      - 'packages/**'
+      - "app/**"
+      - "packages/**"
+      - Dockerfile
       - docker-compose.yaml
+      - main.py
       - package-lock.json
       - package.json
+      - pyproject.toml
+      - uv.lock
 
 concurrency:
   group: cicd-${{ github.ref_name }}
@@ -48,14 +53,18 @@ jobs:
         run: pip install ansible
 
       - name: Add caremate-server to /etc/hosts
-        shell: bash
+        env:
+          LINODE_CAREMATE_SERVER_IP: ${{ vars.LINODE_CAREMATE_SERVER_IP }}
         run: |
-          echo '34.124.210.203 caremate-server' | sudo tee -a /etc/hosts
+          echo "${LINODE_CAREMATE_SERVER_IP} linode-caremate-server" | sudo tee -a /etc/hosts
+        shell: bash
 
       - name: Add caremate-server to known hosts
-        shell: bash
+        env:
+          TARGET_SERVER: ${{ vars.TARGET_SERVER }}
         run: |
-          ssh-keyscan -H caremate-server >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${TARGET_SERVER} >> ~/.ssh/known_hosts
+        shell: bash
 
       - name: Setup vault password file
         env:
@@ -65,10 +74,13 @@ jobs:
           echo "${VAULT_PASS}" > ~/.vault_pass.txt
 
       - name: Deploy service
-        shell: bash
+        env:
+          TARGET_SERVER: ${{ vars.TARGET_SERVER }}
         run: |
           ansible-playbook playbooks/deploy-caremate-service.yaml \
+            --limit=${TARGET_SERVER} \
             --extra-vars='{ "service_name": "project_name" }' \
             --verbose
+        shell: bash
         working-directory: caremate-devops
 {% endraw %}
