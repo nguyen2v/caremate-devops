@@ -3,14 +3,19 @@
     build: ./{{ sub_project_name }}
     container_name: {{ sub_project_name }}
     environment:
-      - PROJECT_NANE=Doc-cat-ai
-      - DATA_STEP_TYPE_YAML=data/step_type.yaml
-      - DATA_VECTOR_DATABASE=data/vectordatabase
       - DATA_FILE=data/file
       - DATA_SAMPLE_YAML=data/sample.yaml
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DATA_STEP_TYPE_YAML=data/step_type.yaml
+      - DATA_VECTOR_DATABASE=data/vectordatabase
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - OCR_API_URL=https://openapi.humanoid.com.vn/api/v1/ocr/blocks
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - POSTGRES_DB=doc_cat_db
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - PROJECT_NANE=Doc-cat-ai
     ports:
       - 8085:8000
     networks:
