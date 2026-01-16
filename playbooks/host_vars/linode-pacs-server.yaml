@@ -1,0 +1,5 @@
+---
+config_dir: '{{ home_dir }}/.pacs-config'
+project_name: pacs
+project_dir: '{{ home_dir }}/{{ project_name }}'
+subdomain_name: pacs

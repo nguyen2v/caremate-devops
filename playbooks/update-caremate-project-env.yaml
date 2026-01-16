@@ -1,5 +1,5 @@
 ---
 - name: Update caremate project env
-  hosts: caremate-server
+  hosts: caremate
   roles:
     - env-helper

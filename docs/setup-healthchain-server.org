@@ -7,7 +7,23 @@
 * Set variables
 #+name: TARGET_SERVER
 #+begin_src bash
-chain-server
+"linode-chain-server,linode-pacs-server"
+#+end_src
+
+* Add chain-server and pacs-server to /etc/hosts
+#+begin_src
+# linode cloud
+172.236.136.69  linode-chain-server
+172.237.87.80   linode-pacs-server
+#+end_src
+
+* Verify SSH connection
+#+begin_src bash :comint
+ssh root@linode-caremate-server
+#+end_src
+
+#+begin_src bash :comint
+ssh root@linode-pacs-server
 #+end_src
 
 * Setup core packages
@@ -34,14 +50,14 @@ ansible-playbook playbooks/setup-docker.yaml \
 * Setup caremate-chain source code
 #+begin_src bash
 ansible-playbook playbooks/setup-caremate-project.yaml \
-  --limit=<<TARGET_SERVER>> \
+  --limit=linode-chain-server \
   --verbose
 #+end_src
 
 * Setup pacs source code
 #+begin_src bash
 ansible-playbook playbooks/setup-pacs-project.yaml \
-  --limit=pacs-server \
+  --limit=linode-pacs-server \
   --verbose
 #+end_src
 
@@ -50,13 +66,12 @@ ansible-playbook playbooks/setup-pacs-project.yaml \
 - Add =pacs= entry to DNS config
  | Type | Host  |          Value | TTL  |
  |------+-------+----------------+------|
- | A    | api   | 34.124.210.203 | Auto |
- | A    | chain |  35.186.148.86 | Auto |
- | A    | meet  | 35.240.162.220 | Auto |
- | A    | pacs  |  35.186.148.86 | Auto |
+ | A    | chain | 172.236.136.69 | Auto |
+ | A    | pacs  |  172.237.87.80 | Auto |
 
 - Wait for DNS propagation
 #+begin_src bash
+dig +short chain.fpt-healthcare.com
 dig +short pacs.fpt-healthcare.com
 #+end_src
 
@@ -71,6 +86,7 @@ ansible-playbook playbooks/setup-nginx.yaml \
 * Deploy caremate-chain
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-chain.yaml \
+  --limit=linode-chain-server \
   --verbose
 #+end_src
 

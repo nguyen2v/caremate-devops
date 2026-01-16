@@ -127,7 +127,9 @@ ansible-playbook playbooks/setup-nginx.yaml \
 * Deploy caremate-server
 ** Update env
 #+begin_src bash
-ansible-playbook playbooks/update-caremate-project-env.yaml --verbose
+ansible-playbook playbooks/update-caremate-project-env.yaml \
+  --limit=linode-caremate-server \
+  --verbose
 #+end_src
 
 ** Deploy server
