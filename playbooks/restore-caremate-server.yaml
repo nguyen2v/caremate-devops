@@ -15,6 +15,12 @@
         - binary
         - database
 
+    - name: Ensure binary folder permission
+      ansible.builtin.file:
+        path: '{{ project_dir }}/binary'
+        state: directory
+        mode: '0777'
+
     - name: Unzip database files
       ansible.builtin.unarchive:
         src: '{{ project_dir }}/database-{{ backup_date }}.zip'
