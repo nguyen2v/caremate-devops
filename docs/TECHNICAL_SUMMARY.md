@@ -2314,7 +2314,7 @@ ansible-playbook playbooks/my-playbook.yaml --verbose
 # beaming-key-466311-v1/servers.tf
 
 module "new_server" {
-  source = "../modules/fhs-instance-ubuntu"
+  source = "../modules/caremate-vm-gcp"
 
   name               = "new-server"
   project_id         = local.project_id
@@ -2330,7 +2330,7 @@ module "new_server" {
 **2. Add firewall rules:**
 
 ```hcl
-# modules/fhs-instance-ubuntu/firewall.tf
+# modules/caremate-vm-gcp/firewall.tf
 
 resource "google_compute_firewall" "new_server_allow_http" {
   name    = "new-server-allow-http"
