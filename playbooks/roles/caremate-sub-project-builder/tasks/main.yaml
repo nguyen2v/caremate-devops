@@ -39,3 +39,10 @@
     chdir: '{{ project_dir }}'
   changed_when: false
   when: sub_project_name == 'cengine-api'
+
+- name: Run migration {{ sub_project_name }}
+  ansible.builtin.command:
+    cmd: 'docker compose exec {{ sub_project_name }} alembic upgrade head'
+    chdir: '{{ project_dir }}'
+  changed_when: false
+  when: sub_project_name == 'doc-cat-api'
