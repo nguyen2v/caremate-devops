@@ -1,6 +1,9 @@
 ---
 - name: Deploy caremate-chain
   hosts: all
+  vars:
+    service_name: sepsis
+    target_sub_project: '{{ sub_project | default(service_name) }}'
   roles:
     - role: git-puller
       repo: 'git@github.com:nguyen2v/{{ project_name }}.git'
@@ -8,4 +11,4 @@
 
     - role: docker-compose-helper
       chdir: '{{ project_dir }}'
-      target_service: caremate-chain
+      target_service: 'target_sub_project'

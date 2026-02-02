@@ -87,6 +87,7 @@ ansible-playbook playbooks/setup-nginx.yaml \
 #+begin_src bash
 ansible-playbook playbooks/deploy-caremate-chain.yaml \
   --limit=linode-chain-server \
+  --extra-vars='{ "service_name": "sepsis" }' \
   --verbose
 #+end_src
 
