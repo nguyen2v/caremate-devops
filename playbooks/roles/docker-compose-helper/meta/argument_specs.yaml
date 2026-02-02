@@ -11,20 +11,5 @@ argument_specs:
       target_service:
         type: str
         required: true
-        choices:
-          - ai-scribe
-          - backend
-          - care-assistant
-          - caremate-agent
-          - caremate-chain
-          - caremate-mcp
-          - cengine-api
-          - doc-cat-api
-          - mental-care
-          - nginx
-          - pacs-server
-          - postgres
-          - redis
-          - server
         description: >
           Name of the Docker service to restart.
