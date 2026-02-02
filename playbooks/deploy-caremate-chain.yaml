@@ -11,4 +11,4 @@
 
     - role: docker-compose-helper
       chdir: '{{ project_dir }}'
-      target_service: 'target_sub_project'
+      target_service: '{{ target_sub_project }}'
