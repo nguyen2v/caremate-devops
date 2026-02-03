@@ -12,6 +12,7 @@ Check the following documents in order
 2. [[./docs/setup-infrastructure.org][Setup Infrastructure]]
 3. [[./docs/setup-server-with-ansible.org][Setup server with Ansible]]
 4. [[./docs/setup-caremate-server.org][Setup Caremate Server]]
+5. [[./docs/setup-healthchain-server.org][Setup Chain Server]]
 
 Others:
 1. [[./docs/setup-chrome-remote-desktop.org][Setup Chrome Remote Desktop]]

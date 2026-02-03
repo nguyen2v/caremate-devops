@@ -1,8 +1,20 @@
 {% if ssl_enabled %}
 client_max_body_size 10M;
 
-upstream caremate-chain {
-  server caremate-chain:8000;
+upstream diabetes-risk {
+  server diabetes-risk:8000;
+}
+
+upstream healthcare-data-converter {
+  server healthcare-data-converter:8000;
+}
+
+upstream multi-ehr-aggregation {
+  server multi-ehr-aggregation:8000;
+}
+
+upstream sepsis {
+  server sepsis:8000;
 }
 {% endif %}
 
@@ -41,18 +53,34 @@ server {
   proxy_cache off;
 
   proxy_set_header Host $host;
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header X-NginX-Proxy true;
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_set_header X-Forwarded-Host $server_name;
+  proxy_set_header X-NginX-Proxy true;
+  proxy_set_header X-Real-IP $remote_addr;
 
   # Optional: increase timeouts if needed
   proxy_read_timeout 3600s;
   proxy_send_timeout 3600s;
   send_timeout 3600s;
 
+  location /diabetes-risk/ {
+    proxy_pass http://diabetes-risk/;
+  }
+
+  location /healthcare-data-converter/ {
+    proxy_pass http://healthcare-data-converter/;
+  }
+
+  location /multi-ehr-aggregation/ {
+    proxy_pass http://multi-ehr-aggregation/;
+  }
+
+  location /sepsis/ {
+    proxy_pass http://sepsis/;
+  }
+
   location / {
-    proxy_pass http://caremate-chain;
+    proxy_pass http://diabetes-risk;
 
     # Forward original host and protocol information
     proxy_set_header Host $host;
