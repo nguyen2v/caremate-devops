@@ -7,7 +7,7 @@
 * Set variables
 #+name: TARGET_SERVER
 #+begin_src bash
-"linode-chain-server,linode-pacs-server"
+linode-chain-server
 #+end_src
 
 * Add chain-server and pacs-server to /etc/hosts
