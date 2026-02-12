@@ -61,6 +61,8 @@
     cmd: docker compose build {{ target_service }}
     chdir: '{{ chdir }}'
   changed_when: false
+  async: 1800
+  poll: 10
 
 - name: Stop {{ target_service }}
   ansible.builtin.command:
