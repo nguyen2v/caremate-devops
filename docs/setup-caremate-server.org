@@ -31,8 +31,9 @@ ssh root@linode-caremate-server
 #+end_src
 
 * Setup TARGET_SERVER
-#+begin_src emacs-lisp
-(setenv "TARGET_SERVER" "linode-caremate-server")
+#+name: TARGET_SERVER
+#+begin_src bash
+linode-caremate-server
 #+end_src
 
 * Setup core packages
@@ -108,8 +109,7 @@ ansible-playbook playbooks/setup-nginx.yaml \
 #+end_src
 
 * Docker compose port mappings
-
-| Servic          |                                 Port |
+| Service         |                                 Port |
 |-----------------+--------------------------------------|
 | postgres        |                            5432:5432 |
 | pgvector        |                            5433:5432 |
