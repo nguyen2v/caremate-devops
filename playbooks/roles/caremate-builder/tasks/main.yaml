@@ -26,7 +26,7 @@
 
 - name: Install dependencies
   ansible.builtin.command:
-    cmd: npm ci --no-progress
+    cmd: npm ci --maxsockets=1 --no-progress
   args:
     chdir: '{{ project_dir }}'
   changed_when: false
