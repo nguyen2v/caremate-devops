@@ -42,7 +42,7 @@
 
 - name: Build docker server
   ansible.builtin.command:
-    cmd: ./scripts/build-docker-server.sh
+    cmd: ./scripts/build-docker-server.sh --latest
   args:
     chdir: '{{ project_dir }}'
   environment:
