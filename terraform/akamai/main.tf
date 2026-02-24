@@ -2,7 +2,7 @@ locals {
   servers = {
     caremate = {
       label     = "${local.namespace}-server"
-      type      = local.g6_dedicated_4
+      type      = local.g6_dedicated_8
       tcp_ports = [5432, 7474, 7687]
     }
     healthchain = {
