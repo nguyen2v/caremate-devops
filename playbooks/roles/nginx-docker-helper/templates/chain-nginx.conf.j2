@@ -9,6 +9,10 @@ upstream healthcare-data-converter {
   server healthcare-data-converter:8000;
 }
 
+upstream mortality-risk {
+  server mortality-risk:8000;
+}
+
 upstream multi-ehr-aggregation {
   server multi-ehr-aggregation:8000;
 }
@@ -69,6 +73,10 @@ server {
 
   location /healthcare-data-converter/ {
     proxy_pass http://healthcare-data-converter/;
+  }
+
+  location /mortality-risk/ {
+    proxy_pass http://mortality-risk/;
   }
 
   location /multi-ehr-aggregation/ {
